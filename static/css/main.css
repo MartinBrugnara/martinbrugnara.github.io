@@ -1,0 +1,53 @@
+/*top right bottom left*/
+body{
+    background-color: #ccc;
+    text-align: center;
+}
+#terminal-container {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 625px;
+    max-height: 625px;
+    height: 625px;
+    overflow-y: scroll;
+    overflow-x: none;
+    display: inline-block;
+    border: 1px solid #eee;
+}
+
+#terminal {
+    background-color: #000;
+    color: #0F0;
+    font-family: 'Ubuntu Mono', 'monospaced';
+    font-size: 16pt;
+    min-width: 990px;
+    max-width: 990px;
+    width 990px;
+    line-height: 25px;
+    min-height: 625px;
+    border: 0;
+    padding: 1px 4px 1px 4px;
+    margin: 0 0 0 0;
+    overflow: hidden;
+}
+
+.user, .domain {
+    color: #eee;
+}
+
+.domain:after{
+    content: "dev-machine";
+    color: #00F;
+}
+
+.cmd {
+    color: #666;
+}
+.command {
+    color: #F00;
+}
+
+.at:before{
+    content: "@";
+}
