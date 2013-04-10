@@ -1,6 +1,8 @@
 $(document).ready(function(){
     $term = $('#terminal');
-    $.getJSON({
+    $.ajax({
+        method:'GET',
+        dataType:'json',
         url: '/static/json/terminal.json',
         success: success_handler,
         error: error_handler
