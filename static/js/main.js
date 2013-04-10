@@ -12,6 +12,7 @@ $(document).ready(function(){
         user = data['user'];
         domain = data['domain'];
         $.each(data['rows'], function(row_data){
+            console.log(row_data);
             $term.append("<li class='cmd'><span class='user'>"+user+"</span>" +
             "<span class='at'></span><span class='domain'>"+domain+"</span>:" +
             "<span class='path'>~</span><br>" +
