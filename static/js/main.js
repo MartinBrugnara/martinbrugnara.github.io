@@ -21,7 +21,10 @@ $(document).ready(function(){
         });
     };
 
-    function error_handler(e, j, c){
+    function error_handler(j, t, e){
+        console.log(j);
+        console.log(t);
+        console.log(e);
         $term.append("<p class='command'>[001] Booting error. Please restart</p>");
     };
 });
