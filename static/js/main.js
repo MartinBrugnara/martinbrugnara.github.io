@@ -12,7 +12,6 @@ $(document).ready(function(){
         user = data['user'];
         domain = data['domain'];
         $.each(data['rows'], function(index, row_data){
-            console.log(row_data);
             $term.append("<li class='cmd'><span class='user'>"+user+"</span>" +
             "<span class='at'></span><span class='domain'>"+domain+"</span>:" +
             "<span class='path'>~</span><br>" +
@@ -22,9 +21,6 @@ $(document).ready(function(){
     };
 
     function error_handler(j, t, e){
-        console.log(j);
-        console.log(t);
-        console.log(e);
         $term.append("<p class='command'>[001] Booting error. Please restart</p>");
     };
 });

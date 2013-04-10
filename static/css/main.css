@@ -32,22 +32,8 @@ body{
     overflow: hidden;
 }
 
-.user, .domain {
-    color: #eee;
-}
-
-.domain:after{
-    content: "dev-machine";
-    color: #00F;
-}
-
-.cmd {
-    color: #666;
-}
-.command {
-    color: #F00;
-}
-
-.at:before{
-    content: "@";
-}
+.user, .domain {color: #eee;}
+.domain:after{color: #00F;}
+.cmd{color: #666;}
+.command{color: #F00;}
+.at:before{content: "@";}
