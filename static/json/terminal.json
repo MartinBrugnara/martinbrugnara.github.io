@@ -4,5 +4,5 @@
     {"command":"echo $github", "output":"<a href='https://github.com/MartinBrugnara' alt='github' target='blank'>https://github.com/MartinBrugnara</a>"},
     {"command":"echo $bitbucket", "output":"<a href='https://bitbucket.org/MartinBrugnara' alt='bitbucket' target='blank'>https://bitbucket.org/MartinBrugnara</a>"},
     {"command":":(){ :|:& };:", "output":"[1] 28693"},
-    {"command":"killa_", "output":""},
+    {"command":"killa_", "output":""}
 ]}
