@@ -7,7 +7,7 @@ body{
 
 #terminal-wrapper {
     display: inline-block;
-    background-color = rgba(0, 0, 0, 0.10);
+    background-color: rgba(0, 0, 0, 0.10);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
     border: 1px solid #006DCC;
     border-radius: 3px;
