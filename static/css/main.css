@@ -7,7 +7,7 @@ body{
 
 #terminal-wrapper {
     display: inline-block;
-    background: #006DCC;
+    background-color = rgba(0, 0, 0, 0.10);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
     border: 1px solid #006DCC;
     border-radius: 3px;
@@ -31,7 +31,7 @@ body{
 }
 
 #terminal {
-    background-color: #000;
+    background-color: inherit;
     font-family: 'Ubuntu Mono', 'monospaced';
     font-size: 16pt;
     min-width: 990px;
@@ -51,7 +51,7 @@ body{
 .domain:after{color: #00F;}
 .cmd{color: #666;}
 .command{color: #006DCC;}
-.output{color: #CCC;}
+.output{color: sienna;}
 .at:before{content: "@";}
 h1{ color: #333; }
 h3{
