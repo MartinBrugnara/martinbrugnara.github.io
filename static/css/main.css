@@ -54,6 +54,11 @@ body{
 .output{color: sienna;}
 .at:before{content: "@";}
 h1{ color: #333; }
+h1:hover{
+    transition-duration: 1s;
+    -webkit-transition-duration: 1s; /* Safari */
+    text-shadow: 2px -1px 0 gold;
+}
 h3{
     color: #5A5A5A;
     font-style: italic;

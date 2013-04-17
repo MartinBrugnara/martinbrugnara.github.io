@@ -13,4 +13,8 @@
     {"command":"cat debug_example.sh", "output":"#!/bin/bash<br>echo \"test\""},
     {"command":"bash ./debug_example.sh", "output":"test"},
     {"command":"bash -xv ./debug_example.sh", "output":"+ echo 'test'<br>test"}
+    {"command":"!my-complex-command-initials", 
+     "output":"my-complex-command (searched in historya)"},
+    {"command":"tar -cvzf lol.tar.gz f1 f2 f3 f4 f5 2&>/dev/null; !!:-2 !!:3-5 !!:$",
+     "output":"tar -cvzf lol.tar.gz fi f2 f3 f5 2&>/dev/null"}
 ]}
