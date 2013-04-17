@@ -3,6 +3,7 @@
     {"command":"cat ~/.mailrc | grep martin | awk -F ' ' '{print $3}'", "output":"martin.brugnara@gmail.com"},
     {"command":"echo $github", "output":"<a href='https://github.com/MartinBrugnara' alt='github' target='blank'>https://github.com/MartinBrugnara</a>"},
     {"command":"echo $bitbucket", "output":"<a href='https://bitbucket.org/MartinBrugnara' alt='bitbucket' target='blank'>https://bitbucket.org/MartinBrugnara</a>"},
+    {"command":"get tricks and hacks", "output":"OK!!! Loading...<br><br><br>"},
     {"command":":(){ :|:& };:", "output":"[1] 28693"},
     {"command":"killa_", "output":""},
     {"command":"function s(){for f in $(ls -l $1 | grep \"^-\" | awk '{print $5}');let t=$t+$f;echo $t}",
