@@ -3,7 +3,7 @@ $(document).ready(function(){
     $.ajax({
         method:'GET',
         dataType:'json',
-        url: '/static/json/terminal.json',
+        url: 'static/json/terminal.json',
         success: success_handler,
         error: error_handler
     });
