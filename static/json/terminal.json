@@ -4,5 +4,12 @@
     {"command":"echo $github", "output":"<a href='https://github.com/MartinBrugnara' alt='github' target='blank'>https://github.com/MartinBrugnara</a>"},
     {"command":"echo $bitbucket", "output":"<a href='https://bitbucket.org/MartinBrugnara' alt='bitbucket' target='blank'>https://bitbucket.org/MartinBrugnara</a>"},
     {"command":":(){ :|:& };:", "output":"[1] 28693"},
-    {"command":"killa_", "output":""}
+    {"command":"killa_", "output":""},
+    {"command":"function s(){for f in $(ls -l $1 | grep \"^-\" | awk '{print $5}');let t=$t+$f;echo $t}",
+     "output":"#Tot directory size"},
+    {"command":"function sr(){for f in $(ls -lR $1 | grep \"^-\" | awk '{print $5}');let t=$t+$f;echo $t}",
+     "output":"#Tot directory-tree size from a node"},
+    {"command":"cat debug_example.sh", "output":"#!/bin/bash<br>echo \"test\""},
+    {"command":"bash ./debug_example.sh", "output":"test"},
+    {"command":"bash -xv ./debug_example.sh", "output":"+ echo 'test'<br>test"}
 ]}
