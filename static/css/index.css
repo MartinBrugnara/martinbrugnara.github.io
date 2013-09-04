@@ -1,0 +1,28 @@
+body{
+    background-color: black;
+    color: gray;
+    font-family: 'Ubuntu Mono', 'monospace';
+    font-weight: 400;
+    font-size: 12pt;
+}
+
+pre {
+    font: 4px monospace;
+    line-height: 2px;
+    white-space: pre;
+}
+
+p:first-child { margin-top: 0; }
+
+p:last-child { margin-bottom: 0; }
+
+section[name="id_card"] div, pre { 
+    display: inline-block;
+    vertical-align: middle;
+}
+a, a:hover, a:link, a:visited, a:active {
+    text-decoration: none;
+    text-transform: none;
+    color: inherit;
+    font-weight: 700;
+}
