@@ -1,0 +1,67 @@
+body{
+    background-color: black;
+    color: gray;
+    font-family: 'Ubuntu Mono', 'monospace';
+    font-weight: 400;
+    font-size: 12pt;
+}
+
+pre {
+    font: 4px monospace;
+    line-height: 2px;
+    white-space: pre;
+}
+
+p:first-child { margin-top: 0; }
+
+p:last-child { margin-bottom: 0; }
+
+section[name="id_card"] div, pre { 
+    display: inline-block;
+    vertical-align: middle;
+}
+a, a:hover, a:link, a:visited, a:active {
+    text-decoration: none;
+    text-transform: none;
+    color: inherit;
+    font-weight: 700;
+}
+
+a.mymind {
+
+    display: block;
+    position: fixed;
+
+    width: 150px;
+    height: 20px;
+    top: 30px;
+    right: -30px;
+
+    margin-top: 1px;
+    margin-bottom: 1px;
+    
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 700;
+
+    background-color: #FAA732;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    border-color: sienna;
+    box-shadow: 1px 0 7px #eee;
+
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+    transform:rotate(45deg);
+}
+ntitle:before { content: open-quote; }
+ntitle:after {content: close-quote; }
+ntitle {
+    font-weight: 700;
+    display: block;
+}
+nhr:before {
+    content: "+------------------------------------------------------------------------------+";
+}
+nht { display: block; }
