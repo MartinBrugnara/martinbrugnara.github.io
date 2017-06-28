@@ -1,0 +1,64 @@
+body {
+    font-family: "Courier New", Courier, monospace  ;
+    max-width: 780px;
+    margin:auto;
+    padding: 40px 20px;
+}
+section {clear: both}
+.me {
+    float: right;
+    border-radius: 100%;
+    margin-left: 10px;
+}
+
+.sr { /* Screen Reader fall-back text */
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+
+/* menu css */
+nav ul {
+    font-family: "Lucida Console", Monaco, monospace;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    text-align: right;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav ul > li:first-child {
+    float: left;
+    text-transform: uppercase;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+    color: #2196F3;
+    fill: #2196F3;
+    text-decoration: underline;
+    transition-timing-function: ease-in;
+    transition: color 0.3s, fill 0.3s;
+}
+
+a:hover {
+    /* alterntive: Amber (FFC107) */
+    color: #FFB300;
+    fill: #FFB300;
+}
+
+/* publication style */
+.ptitle {font-weight: bold}
+.author {font-style: italic}
+.ptitle, .author, .meta {display: block}
+.pub > li:not(:last-child) {padding-bottom:7px}
+.proj > section {margin-bottom: 2em}
+.proj > section > p {
+  -webkit-margin-before: 0.5em;
+  margin-top: 0.5em
+}
