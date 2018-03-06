@@ -1,0 +1,292 @@
+#!/usr/bin/env ruby
+
+=begin
+This file contains the ex from the 20180305 lesson.
+
+Topics:
+* Recap on math operators
+* Conditional execution
+* Input from the user
+* Range
+
+MB.
+=end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Recap on math operators
+puts "\n\n== Recap on math operators"
+
+# Computes the real roots of a polynomial of the 2nd degree
+# with the following form "ax^2 + bx + c"
+# Returns: [zero1, zero2]
+def real_roots(a, b, c)
+  delta = b*b - 4*a*c
+
+  # Use sqrt function from the Math library
+  sqrt_delta = Math.sqrt(delta)
+
+  # we may return multiple results, our zeros in this case, as an array.
+  return [(-b + sqrt_delta) / (2*a.to_f), (-b - sqrt_delta) / (2*a.to_f)]
+end
+
+puts "Roots of x^2 + 3x + 2 #{real_roots(1,3,2)}"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Conditional execution
+puts "\n\n== Conditional execution"
+
+# Computing the roots of a polynomial of the 2nd degree
+# with the following form "ax^2 + bx + c"
+# Returns: [zero_1_real, zero_1_imaginary, zero_2_real, zero_2_imaginary]
+def roots(a, b, c)
+  delta = b*b - 4*a*c
+
+  if delta >= 0 then
+    # Parallel assignment here is used to assign each element of the
+    # result array to its own variable.
+    x1, x2 = real_roots(a, b, c)
+    return [x1, 0, x2, 0]
+  else
+    sqrt_delta = Math.sqrt(-delta)
+    # Mind the int vs float division !!!
+    return [-b.to_f/(2*a), sqrt_delta/(2*a), b.to_f/(2*a), -sqrt_delta/(2*a)]
+  end
+end
+
+puts "Roots of 5x^2 + 10x + 3 #{roots(5,10,3)}"
+puts "Roots of 5x^2 + 2x + 3 #{roots(5,2,3)}"
+
+=begin
+                         CONDITIONAL STATEMENTS
+  It is subordinate the execution of a block (piece of code) to conditions.
+  This can be done be the mean of `if` statement which can appear in
+  the following form.
+
+  * Simple
+  `
+    if condition then
+      code to execute only if condition is true
+    end
+  `
+
+  * Complete
+  `
+    if condition then
+      code to execute only if condition is true
+    else
+      code to execute only if condition is false
+    end
+  `
+
+  * Chained:
+    In chained `if` ONLY the block corresponding to the FIRST (in reading order)
+    true condition is executed, the others are not evaluated.
+  `
+    if condition_1 then
+      code to execute only if condition_1 is true
+
+    # NOTE: this is not a typo. It really is 'elsif'
+    elsif
+      code to execute only if
+        condition_1 is false AND condition_2 is true
+    # NOTE: there many be more than one elsif.
+    ...
+
+    # The else if optional, like for the first two examples.
+    else
+      code to be executed only if non of the above was executed.
+      In this case if both condition_1 and condition_2 were false.
+    end
+  `
+=end
+
+=begin
+                            BOOLEAN EXPRESSIONS
+  The "conditions" used in the previous example must be boolean expression.  A
+  boolean expression is an expression that evaluates to either true or false.
+  A boolean expression result is a boolean value that can be stored in
+  boolean variable. A boolean variable can also be created by assignment of the
+  truth values true, false.
+
+  Follows a list of operator that produce boolean values.
+=end
+x = 5
+y = 10
+
+puts ""
+puts "For the following examples x is #{x} and y is #{y}"
+
+puts "Are equal:          x == y  -> #{x == y}"
+puts "Are different:      x != y  -> #{x != y}"
+puts "Is greater:         x > y   -> #{x > y}"
+puts "Is greater/equal:   x >= y  -> #{x >= y}"
+puts "Is smaler:          x < y   -> #{x < y}"
+puts "Is smaler/equal:    x <= y  -> #{x <= y}"
+
+# This operator comes in handy when sorting. Furthermore, it can be used to
+# implement any of the above (we will see it again when talking about OOP).
+#
+# It returns
+#   -1 if x < y
+#    0 if x == y
+#    1 if x > y
+#    nil if the comparison of x and y is not defined.
+puts "Spaceship:          x <=> y -> #{x <=> y}"
+
+
+=begin
+                    BOOLEAN EXPRESSIONS - BOOLEAN OPERATORS
+                      a.k.a logical operators
+  Boolean expression are so called because operates on boolean values,
+  there exists then specialized operators: boolean operators.
+=end
+
+a = true
+b = false
+
+puts ""
+puts "For the following examples a is #{a} and b is #{b}"
+
+puts "a AND b: a and b  -> #{a and b}"
+puts "a OR b: a or b  -> #{a or b}"
+puts "not(a): !a  -> #{!a}"
+puts "a OR b: a || b  -> #{a || b}"
+=begin
+                              BITWISE OPERATORS
+                            (just for reference)
+
+^ -> binary xor,
+    if used with boolean variable is equal to: ((a and not b) or (not a and b))
+& -> binary and
+! -> binary or
+~ -> binary ones complement
+<< binary left shift
+>> binary right shift
+=end
+
+=begin
+                      ADVANCED CONDITIONAL STATEMENTS
+* Postfix if
+    `<statement> if condition`
+  equivalent to:
+  `
+    if condition then
+      statement
+    end
+  `
+
+* Postfix unless
+    `<statement> unless condition`
+  equivalent to:
+  `
+    if not condition then
+      statement
+    end
+  `
+
+* Ternary operator
+    `condition ? <statement_if_true> : <statement_if_false>`
+  equivalent to:
+  `
+    if condition then
+      <statement_if_true>
+    else
+      <statement_if_false>
+    end
+
+
+* Switch case
+  NOT the same as in C & friends.
+    1) Does not fall through
+    2) Returns the value of the last executed statement.
+       It can be thus used in assignment.
+
+  "simple version"
+  x = case
+    when condition then statement
+    when condition
+      code
+    else
+  end
+
+  "magic version"
+    case var
+      when y then statement
+    ...
+      else
+    end
+
+    In this version `var` is compared to y with the `===` operator
+    which can be defined on classes. This "should make the code more readable",
+    look at the following examples. For more details please refer to the online
+    documentation:
+    https://ruby-doc.com/docs/ProgrammingRuby/html/tut_expressions.html#S5
+=end
+
+puts ""
+q = 42
+puts case q
+  when 30...40 then "#{q} is between 30 and 40"
+  # === for range means "is x in range"
+  when 40...50 then "#{q} is between 40 and 50"
+  when 50...60 then "#{q} is between 50 and 60"
+  else "#{q} is not between 30 and 60"
+end
+
+q = "hello"
+puts case q
+  when "lol" then "#{q} is lol"
+  when "Hello" then "#{q} is Hello"
+  # === for string is the same as == (case sensitive)
+  when "hello" then "#{q} is hello"
+  when 40...50 then "#{q} is between 40 and 50"
+end
+
+q = 42
+puts case q
+  when "lol" then "#{q} is lol"
+  when "hello" then "#{q} is hello"
+  # They can be mixed !!
+  when 40...50 then "#{q} is between 40 and 50"
+end
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Input from the user
+# `gets`: read the user input until <enter>
+puts "\n\n== Input from the user"
+
+puts "Computing ax^2 + bx + c"
+
+# Once read about loops (next topic) try to implement a check that guarantees
+# out inputs to be number different from 0
+# hint: x != Nan and x != 0
+
+puts "Provide `a`"
+# gets -> get input
+# chomp -> clean it
+# to_i -> cast (aka convert) to integer
+a = gets.chomp.to_i
+puts "Provide `b`"
+b = gets.chomp.to_i
+puts "Provide `c`"
+c = gets.chomp.to_i
+
+puts "Roots for #{a}x^2 + #{b}x + #{c} are #{roots(a,b,c)}"
+
+# Conversion
+# A vale can be converted to an integer via the `to_i` method, to a float with
+# `to_f`, to a string with `to_s`, and to an array with `to_a`.
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Range
+puts "\n\n== Range"
+
+# [1,3]
+puts "1..3 ->"
+puts (1..3).to_a
+
+# [1,3[
+puts "1...3 ->"
+puts (1...3).to_a

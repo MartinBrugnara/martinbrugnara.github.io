@@ -1,0 +1,256 @@
+#!/usr/bin/env ruby
+
+=begin
+This file contains the notes from the second lesson (20180226).
+
+Topics:
+  * String interpolation
+  * Mathematical operators (and int vs float)
+  * Gentle introduction to the math library
+  * First function (with hints on scopes)
+  * Variables (with hints on scopes)
+  * Bash input - output
+More in detail, it contains a brief overview of math operators
+and of useful functions/constants that are in the math library.
+
+MB.
+=end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# String interpolation
+puts "== String interpolation"
+
+# To include a variable simply wrap its name in '#{}' like as follows
+x = 42
+puts "The answer to the meaning of life, the universe, and everything is #{x}"
+
+# When printing rational numbers one may want to display only a limited number
+# of decimals. C like string formatting to rescue: "%.2f". "%f" means
+# "here place a float variable", .2 mean with 2 decimals.
+# Please note no variable name has been specified, they must be supplied
+# as argument like follows.
+#
+# P.S one may also mix the two methods.
+x = 0
+puts "%.2f is #{x}" % x
+
+# More than variable may be specified via %f like this
+puts "%.2f + %.2f = %.2f" % [x, x, x]
+
+# Alternative (crazy) float formatting with string interpolation
+puts "#{'%.2f' % x} + #{'%.2f' % x} = #{'%.2f' % x}"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Mathematical operators (and int vs float)
+# Common operators behave like in real world math. Same precedence rules apply.
+puts "\n\n== Math"
+
+a = 1
+b = 3
+puts "For next math examples: a is #{a}, b is #{b}"
+
+# Please note that simple operations, like the ones that follow,
+# can be directly inserted into the #{}.
+y = a + b
+puts "Sum:            a + b  = #{y}"
+puts "Subtraction:    a - b  = #{a - b}"
+puts "Multiplication: a * b  = #{a * b}"
+puts "Power:          a ** b = #{a ** b}"
+puts ""
+
+# If both dividend and divisor are integer variables -- assigned without
+# decimals `a = 3`, so converted `a.to_i`, or result of non float division
+# operations -- the integer division is performed, float one otherwise.
+puts "Division (int):   a / b        = #{a % b}"
+puts "Module:           a % b        = #{a % b}"
+puts "Division (float): a /b.to_f    = #{a % b}"
+puts "Division (float): a /(b * 1.0) = #{a % b}"
+
+puts "Be aware of operator precedence!!"
+puts "Int division -> int, int * float -> float: a /b * 1.0 = #{a % b}"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Math library
+# `Math` is the library that offers some functions like `tan` and can be called
+# as Math.function_name(arguments). Furthermore, it provides some constants
+# like PI that can be accessed like `Math::PI`.
+#
+# Some follows some examples.
+# Please refer to the documentation for the full list:
+# https://ruby-doc.org/core-2.5.0/Math.html
+puts "\n\n== Math library (intro)"
+
+puts "Tangent of 5 is #{Math.tan 5}"
+puts "Sine of 5 is #{Math.sin 5}"
+puts "Cosine of 5 is #{Math.cos 5}"
+puts "Square root of 5 is #{Math.sqrt 5}"
+
+# The library offers also some constants like:
+puts "PI is #{Math::PI}"
+puts "E is #{Math::E}"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# First function
+#
+# Let's compute the fix numbers for a given regular polygon
+#   fix_num(n) := 1/(2*tan(pi/n))
+#   n: number of sides
+#
+# Ref:  https://it.wikipedia.org/wiki/Apotema_(geometria)#Numeri_fissi
+puts "\n\n== Functions"
+
+# Use keyword `def` to begin the definition of a function,
+# follows the `function_name` and the list of arguments `(a, b, c)`.
+def fix_num(n)
+  # Body of the function.
+  # Note that a body may contain more than one statement (e.g. assignment,
+  # expression, function call, ...)
+
+  # Note we have indented the code, prefixing 2 spaces.
+
+  y = 1/( 2*Math.tan(Math::PI/n) )
+
+  # Since the function is not composed by a single expressions like in math,
+  # but by (possibly) many statement (assignment, loops, func call, ...)
+  # the `return` keyword should be used to identify what is the result of
+  # this function.
+  return y
+end
+
+# Note: the function has only been defined. We say how it should be computed,
+# we never actually computed it (i.e. called it). Let's do it
+hexa_fix_num = fix_num(6)
+puts "Fix number for a hexagon is #{hexa_fix_num}"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Variables
+puts "\n\n== Variables and intro to scope"
+
+# For now, please consider the following kind of variables
+# and pay attention on how they are written.
+#
+#   var_name  -> local variable
+#     scope: inside the scope where it is defined (function, block, file)
+#   VAR_NAME  -> constant variable (re-assigning raises a warning)
+#     scope: all file (in all scopes)
+#   $var_name  -> global variable
+#     scope: everywhere
+#   $VAR_NAME  -> global constant
+#     scope: everywhere
+#
+# Follows some examples to show the difference between those.
+
+# Global variable. (Shall be avoided whenever possible)
+$g = 99
+puts "[script] $g: #{$g}"
+
+# Constant
+WORLD="Hello World"
+print "[script] "
+puts WORLD
+
+# local variable defined in script body
+l = 4
+puts "[script] l: #{l}"
+
+# A function has its own scope.
+def hello()
+  # local variables defined outside a function body do not leak inside
+  # the function. Uncomment to see yourself.
+  # puts "\t[hello] l: #{l}"
+
+  # local variable defined in function body (name already exists in body).
+  l = 3
+  puts "\t[hello] l: #{l}"
+
+  # It is possible to access a global variable from within a function.
+  puts "\t[hello] $g: #{$g}"
+  $g = 50
+  # and modifying it.$
+  puts "\t[hello] $g: #{$g}"
+
+  # local variable defined in function body (new name)
+  k = 5
+  puts "\t[hello] k: #{k}"
+
+  # Constants are visible in the whole file, including inside a function.
+  print "\t[hello] "
+  puts WORLD
+end
+puts "[script] call hello()"
+hello()
+
+# Let us print again to check if the assignment in the hello func changed it.
+puts "[script] l after: #{l}"
+# Variable is *REDEFINED* inside the scope of the function,
+# the `l` variable inside hello() is another variable (different memory location)
+# than the one of the script body. Thus, modification to the first does not
+# impact the latter.
+
+# Being `$g` a global variable, effects of the `hello` function are visible
+# globally, thus also from the body script.
+puts "[script] g: #{$g}"
+
+# Uncomment following row to check persistence of `k`, that is defined and used
+#   in hello(). It will produce a `NameError`
+#   math.rb:156:in `<main>': undefined local variable or method `k' \
+#   for main:Object (NameError)
+# puts "[script] k: #{k}"
+
+# Variable is defined inside the scope of the function, once the function call
+# terminates, the scope ceases to exist, and all local variables are lost.
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Bash input - output
+puts "\n\n== Input from bash, redirect output in bash"
+
+=begin
+ It is always possible to provide arguments to a bash command (ls ./my_dir).
+ This means that also the ruby scripts can take arguments from the common line.
+ It is sufficient to add the arguments at the end of the command separated by
+ a space, like this:
+    username@host:path $ command arg1 arg2 arg2
+
+ The syntax should be familiar... Remember "$ ruby my_script.rb" ?
+
+ Those arguments are packed together in an array and provided by ruby via
+ the ARGV predefined constant.
+
+ In ruby it is possible to access to an array item via its index
+ (counting from 0).
+    puts ARGV[0]  --> "arg1"
+    my_array[12] = 6
+
+
+ Try to call this script with one or more argument and it will compute fix_num
+ for each of them.
+=end
+
+# Ignore the following line
+puts "Try call this script with some numbers as argument like:" unless ARGV.length > 0
+puts "./lesson2_20180226.rb 6 12 23" unless ARGV.length > 0
+
+# We iterate with a for loop (we will cover it in detail in the next lessons)
+for arg in ARGV do
+  # Ruby manages all arguments from command line as strings, we must clean
+  # them from spaces and control charters (\n\t ..) with `chomp` and then
+  # cast the string into an integer via `to_i`
+  n = arg.chomp.to_i
+
+  puts "[ARGV exmaple] Fix number for a #{n}-sided polygon is #{fix_num(n)}"
+end
+
+=begin
+To save *all* the output of this script in a file use `>` as":
+$ ./lesson2_20180226.rb 6 12 23 > output.txt
+
+Note that every time the previous line is execute the whole content of
+`output.txt` is deleted, if this is not the intended behaviour an alternative
+is to use `>>`. This will append the output to the existing content.
+
+$ ./lesson2_20180226.rb 6 12 23 >> output.txt
+=end
