@@ -1,0 +1,190 @@
+#!/usr/bin/env ruby
+
+
+=begin
+This file contains the ex from the 20180312 lesson.
+
+Topics:
+* for, while, until, each
+* Method of Exhaustion for the Area of the Circle
+* Factorial
+* Exercise
+
+MB.
+=end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Loops
+=begin
+
+ We will see the following structures:
+ *
+    for var in seq do
+      code to be executed for each value in seq.
+      the value is made available via `var`
+    end
+
+  Where seq can be anything that is iterable like array or range.
+
+ *
+    while condition
+      <code to be executed while the condition is true>
+    end
+
+ *
+    until condition
+      <code to be executed while the condition is false>
+    end
+
+ *
+    seq.each do |var|
+      <code>
+    end
+
+ * seq.each { |var| <code> }
+
+
+                            Exiting from loops
+ Sometime may be useful to early exit on loops, before the condition value
+ changes or all items have been visited. While this can be achieved with if
+ it may be not practical, thus two keyword are provided: break and next.
+
+ break
+    exit from the current loop. In case of nested loops, only from the current.
+    examples:
+`
+    while cond1
+      while cond2
+        if cond4 then
+          break
+        end
+        while cond3
+        end
+      end
+      # if cond4 is true when evaluated, program nexts here
+    end
+`
+  if cond4 is true when evaluated, the loop on cond 3 is not evaluated and
+  program exites from the `while cond2` loop no matter what the cond2
+  evaluates to.
+
+
+ next
+    very similar to break, but does not exit from the loop, just avoid
+    executing the remaining code for the current iteration.
+  `
+    while cond1
+      while cond2
+
+        if cond4 then
+          next
+            # skip this iteration and revaluate cond2
+            # in case of "for", move to next item
+        end
+        while cond3
+        end
+      end
+      # if cond4 is true when evaluated, program nexts here
+    end
+`
+
+
+ Please refer to the following resources for a more detailed explanation
+ http://ruby.bastardsbook.com/chapters/loops/
+ https://www.ragni.me/ncalc/lecture5/
+=end
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Proof of exhaustion for the area of the circle
+puts "\n\n== Proof of exhaustion for the area of the circle"
+
+def A(n)
+  return n/2.0*Math.sin(2*Math::PI/n)
+end
+
+# V1
+puts "PI: #{Math::PI}"
+puts "A(3): #{A(3)}"
+
+for o in 1..6 do
+  puts "A(#{10**o}): #{A(10**o)}"
+end
+
+# V1b
+(1..6).each do |o|
+  puts "A(#{10**o}): #{A(10**o)}"
+end
+
+# V2
+PI6 = 3.141592
+n = 3
+while A(n) < PI6 do
+  n += 1
+end
+puts "6d PI: #{n}, #{A(n)}, #{Math::PI}"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Factorial:    https://en.wikipedia.org/wiki/Factorial
+puts "\n\n== Factorial"
+
+def f(n)
+  return 1 if n <= 1
+  return n * f(n-1)
+end
+
+def f2(n)
+  return n <= 1 ? 1 : n * f(n-1)
+end
+
+def f_iterative(n)
+  # Inutile
+  # if n < 1 then
+  #   return 1
+  # end
+
+  res = 1
+  (1..n).each do |x|
+    res *= x
+  end
+  return res
+end
+
+
+# Why the iterative? Try with n=1e5
+# n = 1e5
+# puts f(n)
+# puts f2(n)
+#puts f_iterative(n)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Exercise: Mini game
+=begin
+
+"Move O around"
+
+-- do
+|  Print the box
+|  Wait for user input (WASD Q)
+|    use `STDIN.getch()`
+|    (must add `require 'io/console'` at top file)
+|  Compute new location for O w.r.t input
+-- until user input == Q
+
+
+box:
++------------------------------------------------------------------------------+
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|         O                                                                    |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+=end
