@@ -16,8 +16,8 @@ MB.
 # Recap on math operators
 puts "\n\n== Recap on math operators"
 
-# Computes the real roots of a polynomial of the 2nd degree
-# with the following form "ax^2 + bx + c"
+# Computes the real roots of a polynomial of 2nd degree
+# with the following form "ax^2 + bx + c = 0"
 # Returns: [zero1, zero2]
 def real_roots(a, b, c)
   delta = b*b - 4*a*c
@@ -35,8 +35,8 @@ puts "Roots of x^2 + 3x + 2 #{real_roots(1,3,2)}"
 # Conditional execution
 puts "\n\n== Conditional execution"
 
-# Computing the roots of a polynomial of the 2nd degree
-# with the following form "ax^2 + bx + c"
+# Computing the roots of a polynomial of 2nd degree
+# with the following form "ax^2 + bx + c = 0"
 # Returns: [zero_1_real, zero_1_imaginary, zero_2_real, zero_2_imaginary]
 def roots(a, b, c)
   delta = b*b - 4*a*c
@@ -59,7 +59,7 @@ puts "Roots of 5x^2 + 2x + 3 #{roots(5,2,3)}"
 =begin
                          CONDITIONAL STATEMENTS
   It is subordinate the execution of a block (piece of code) to conditions.
-  This can be done be the mean of `if` statement which can appear in
+  This can be done be means of the `if` statement which can appear in
   the following form.
 
   * Simple
@@ -108,7 +108,7 @@ puts "Roots of 5x^2 + 2x + 3 #{roots(5,2,3)}"
   boolean variable. A boolean variable can also be created by assignment of the
   truth values true, false.
 
-  Follows a list of operator that produce boolean values.
+  It follows a list of operators that produce boolean values.
 =end
 x = 5
 y = 10
@@ -120,11 +120,12 @@ puts "Are equal:          x == y  -> #{x == y}"
 puts "Are different:      x != y  -> #{x != y}"
 puts "Is greater:         x > y   -> #{x > y}"
 puts "Is greater/equal:   x >= y  -> #{x >= y}"
-puts "Is smaler:          x < y   -> #{x < y}"
-puts "Is smaler/equal:    x <= y  -> #{x <= y}"
+puts "Is smaller:          x < y   -> #{x < y}"
+puts "Is smaller/equal:    x <= y  -> #{x <= y}"
 
-# This operator comes in handy when sorting. Furthermore, it can be used to
-# implement any of the above (we will see it again when talking about OOP).
+# This operator is useful when sorting. Furthermore, it can be used to
+# implement any of the above (we will see it again when talking about
+# Object Oriented Programming - OOP).
 #
 # It returns
 #   -1 if x < y
@@ -137,8 +138,8 @@ puts "Spaceship:          x <=> y -> #{x <=> y}"
 =begin
                     BOOLEAN EXPRESSIONS - BOOLEAN OPERATORS
                       a.k.a logical operators
-  Boolean expression are so called because operates on boolean values,
-  there exists then specialized operators: boolean operators.
+  Boolean expression are so called because operate on boolean values,
+  there exist specialized operators: boolean operators.
 =end
 
 a = true
@@ -199,7 +200,7 @@ puts "a OR b: a || b  -> #{a || b}"
   NOT the same as in C & friends.
     1) Does not fall through
     2) Returns the value of the last executed statement.
-       It can be thus used in assignment.
+       Thus, it can be used in assignment.
 
   "simple version"
   x = case
@@ -227,7 +228,7 @@ puts ""
 q = 42
 puts case q
   when 30...40 then "#{q} is between 30 and 40"
-  # === for range means "is x in range"
+  # === for range it means "is x in range"
   when 40...50 then "#{q} is between 40 and 50"
   when 50...60 then "#{q} is between 50 and 60"
   else "#{q} is not between 30 and 60"
@@ -259,7 +260,7 @@ puts "\n\n== Input from the user"
 puts "Computing ax^2 + bx + c"
 
 # Once read about loops (next topic) try to implement a check that guarantees
-# out inputs to be number different from 0
+# out inputs to be a number different from 0
 # hint: x != Nan and x != 0
 
 puts "Provide `a`"
@@ -275,7 +276,7 @@ c = gets.chomp.to_i
 puts "Roots for #{a}x^2 + #{b}x + #{c} are #{roots(a,b,c)}"
 
 # Conversion
-# A vale can be converted to an integer via the `to_i` method, to a float with
+# A value can be converted to an integer via the `to_i` method, to a float with
 # `to_f`, to a string with `to_s`, and to an array with `to_a`.
 
 
