@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+W = 100
+H = 25
+
+class Screen
+  def initialize(w, h, *args)
+    @w, @h = w - 2, h - 2
+    self.clear()
+  end
+
+  def clear()
+    # @screen = [['='] * @w] * @h # DO NOT: copies by reference
+    @screen = Array.new(@h) {[' '] * @w}
+  end
+
+  def set(x, y, val='0')
+    @screen[y][x] = val
+  end
+
+  def unset(x, y)
+    @screen[y][x] = ' '
+  end
+
+  def print()
+    tmp = ['+' + '-' * @w + '+']
+    for row in @screen do
+      tmp << '|' + row.join('') + '|'
+    end
+    tmp << ['+' + '-' * @w + '+']
+    puts tmp.join("\n")
+  end
+end
+
+s = Screen.new(W, H)
+s.print()
+s.set(0,3)
+s.print()
+
+

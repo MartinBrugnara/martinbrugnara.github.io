@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+W = 100
+H = 25
+HW = W - 2
+HI = H - 2
+
+def print_scr(screen)
+  tmp = ['+' + '-' * (screen[0].size) + '+']
+  for row in screen do
+      tmp << '|' + row.join('') + '|'
+  end
+  tmp << ['+' + '-' * (screen[0].size) + '+']
+  puts tmp.join("\n")
+end
+
+screen = Array.new(HI) {[' '] * HW}
+print_scr(screen)
+screen[3][0] = 'x'
+print_scr(screen)

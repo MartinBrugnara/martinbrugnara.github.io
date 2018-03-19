@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require 'io/console'
+# provides: STDIN.getch
+
+w = 80
+h = 20
+
+x, y = 1, 1
+def print_scr(w, h, x, y)
+  puts '+' + '-' * (w - 2) + '+'
+
+  for _ in 1...y
+      puts '|' + ' ' * (w - 2) + '|'
+  end
+
+  puts '|' + ' ' * (x - 1) + 'O' + ' ' * (w-x-2) + '|'
+
+  for _ in (y+1)...h
+      puts '|' + ' ' * (w - 2) + '|'
+  end
+
+  puts '+' + '-' * (w - 2) + '+'
+end
+
+
+
+while true
+  print_scr(w, h, x, y)
+  case STDIN.getch
+    when 'w'
+      y -= 1
+      if y == 0
+        y = h - 1
+      end
+    when 's'
+      # see "d"
+      y = (y % (h-1)) + 1
+    when 'a'
+      x -= 1
+      if x == 0
+        x = w - 2 # screen in 0..79, valid values: 1..78
+      end
+    when 'd'
+      # You can be smarter and avoid conditional branches
+      # Idea:
+      #   Remove border (w-2)
+      #   Transpose x to new system `x - 1`
+      #   Increment x to move right
+      #   Use module to overflow
+      #   Transpose x to old system `new_x + 1`
+      x = (x % (w-2)) + 1
+    when 'q'
+      break
+    else
+  end
+end
