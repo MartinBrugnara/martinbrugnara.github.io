@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+# ArgumentError: wrong kind of argument
+# RuntimeError: error due to the value of an argument,
+#               or combination of values of more arguments.
+
+# Create custom error type, subclass of RuntimeError
+class OutOfScreenError < RuntimeError; end
+
+class Screen
+  def initialize(w, h, *args)
+    raise ArgumentError, "Width (w) must be a natural > 3" if not (w.is_a? Integer and w > 3)
+    raise ArgumentError, "Height (h) must be a natural > 3" if not (h.is_a? Integer and h > 3)
+
+    @w, @h = w - 2, h - 2
+    self.clear()
+  end
+
+  def clear()
+    # @screen = [['='] * @w] * @h # DO NOT: copies by reference
+    @screen = Array.new(@h) {[' '] * @w}
+  end
+
+  def set(x, y, val='0')
+    raise ArgumentError, "X, Y must be natural" if not (x.is_a? Integer and y.is_a? Integer)
+
+    # NOTE: === is not commutative.
+    raise OutOfScreenError, "X is out of screen" if not (0...@screen[0].size) === x
+    raise OutOfScreenError, "Y is out of screen" if not (0...@screen.size) === y
+
+    @screen[y][x] = val
+  end
+
+  def unset(x, y)
+    @screen[y][x] = ' '
+  end
+
+  def print()
+    tmp = ['+' + '-' * @w + '+']
+    for row in @screen do
+      tmp << '|' + row.join('') + '|'
+    end
+    tmp << ['+' + '-' * @w + '+']
+    puts tmp.join("\n")
+  end
+end
+
+
+
+s = Screen.new(20, 20)
+s.set(5,5)
+
+# s.set(25,25)
+
+
+#http://rubylearning.com/satishtalim/ruby_exceptions.html
+x, y = 25, 5
+begin
+  puts "> In begin body"
+  s.set(x, y)
+
+  puts "> Middle of begin body"
+  s.set(2.3, y)
+
+  puts "> End of begin body"
+rescue ArgumentError
+  puts "wat?"
+
+rescue OutOfScreenError
+  puts "ops, lets try with different x"
+  x = 7
+  retry
+
+rescue
+  # catch any error
+
+ensure
+  puts "This is always printed in the end, no matter what happen"
+end

@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+require 'io/console'
+#   STDIN.getch
+
+W = 100
+H = 25
+WI = W - 2
+HI = H - 2
+
+class Screen
+  def initialize(w, h, *args)
+    @w, @h = w - 2, h - 2
+    self.clear()
+  end
+
+  def clear()
+    # @screen = [['='] * @w] * @h # DO NOT: copies by reference
+    @screen = Array.new(@h) {[' '] * @w}
+  end
+
+  def set(x, y, val='0')
+    @screen[y][x] = val
+  end
+
+  def unset(x, y)
+    @screen[y][x] = ' '
+  end
+
+  def print()
+    tmp = ['+' + '-' * @w + '+']
+    for row in @screen do
+      tmp << '|' + row.join('') + '|'
+    end
+    tmp << ['+' + '-' * @w + '+']
+    puts tmp.join("\n")
+  end
+end
+
+# Infinite loop using function objects as arguments
+def inf_loop(fps, xzoom, f)
+  s = Screen.new(W, H)
+  for x in 1...WI do
+    y = f.call(x/xzoom.to_f)
+    s.set(x, y)
+    s.print()
+    #s.unset(x, y)
+    sleep(1.0/fps)
+  end
+end
+
+def cos(x)
+  return HI/2 + (Math.cos(x) * (HI/2)).to_int
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Function as arguments (anonymous functions, lambda)
+
+# Pass a function (cos)
+# note we use : to _mean_ we want the "name of the function"
+#   and not to invoke the function.
+#inf_loop(15, 10, method(:cos))
+
+# SIN (lambda) - >
+#inf_loop(15, 10, ->(x){ HI/2 + (Math.sin(x) * (HI/2)).to_int})
+
+# Thunder (lambda)
+inf_loop(15, 1, ->(x){ (x%HI).to_int})
+
+#a = ->(x){ HI/2 + (Math.sin(x) * (HI/2)).to_int}
+#inf_loop(15, 10, a)

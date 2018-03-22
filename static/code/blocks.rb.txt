@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+
+require 'io/console'
+#   STDIN.getch
+
+W = 100
+H = 25
+WI = W - 2
+HI = H - 2
+
+class Screen
+  def initialize(w, h, *args)
+    @w, @h = w - 2, h - 2
+    self.clear()
+  end
+
+  def clear()
+    # @screen = [['='] * @w] * @h # DO NOT: copies by reference
+    @screen = Array.new(@h) {[' '] * @w}
+  end
+
+  def set(x, y, val='0')
+    @screen[y][x] = val
+  end
+
+  def unset(x, y)
+    @screen[y][x] = ' '
+  end
+
+  def print()
+    tmp = ['+' + '-' * @w + '+']
+    for row in @screen do
+      tmp << '|' + row.join('') + '|'
+    end
+    tmp << ['+' + '-' * @w + '+']
+    puts tmp.join("\n")
+  end
+end
+
+# Infinite loop using function objects as arguments
+def inf_loop(fps, xzoom, f)
+  s = Screen.new(W, H)
+  for x in 1...WI do
+    y = f.call(x/xzoom.to_f)
+    s.set(x, y)
+    s.print()
+    #s.unset(x, y)
+    sleep(1.0/fps)
+  end
+end
+
+def cos(x)
+  return HI/2 + (Math.cos(x) * (HI/2)).to_int
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# BLOCKS
+# {|| code} works only in combination with yield.
+
+# Infinite loop using blocks an yield
+def inf_loop_y(fps, xzoom)
+  s = Screen.new(W, H)
+  # zoom 2x
+  for x in 1...WI do
+    y = yield x/xzoom.to_f
+    s.set(x, y)
+    s.print()
+    sleep(1.0/fps)
+  end
+end
+
+# SIN (lambda)
+#inf_loop_y(15, 10) { |x| HI/2 + (Math.sin(x) * (HI/2)).to_int}
+
+# Thunder (lambda)
+inf_loop_y(15, 1) do |x|
+  # last computed value is automatically returned.
+  # do not use return (will return calling function)
+  (x%HI).to_int
+end
