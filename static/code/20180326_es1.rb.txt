@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+fname = ARGV[0]
+data = []
+File.foreach(fname) { |line|
+    data << line.chomp.to_i
+}
+puts data.sort.join ', '
