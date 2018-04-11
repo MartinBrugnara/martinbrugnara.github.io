@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+fname = ARGV[0]
+data = {}
+data.default = 0
+
+File.open(fname) { |file|
+  file.each_line { |line|
+    val = line.chomp.to_i
+    data[val] += 1
+  }
+}
+
+# puts data.sort_by { |k, v| v }.map { |k, v| "#{k} -> #{v}"}
+
+# NOTE: (a[1] - b[1]) or (a[0] - b[0]) does not work because 0 is true in ruby.
+
+# Sorting: DESC by count, ASC by value
+puts data
+  .sort { |a, b| a[1] != b[1] ? b[1] - a[1] : a[0] - b[0] }
+  .map { |k, v| "#{k} -> #{v}"}
