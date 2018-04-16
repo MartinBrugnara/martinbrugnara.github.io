@@ -1,0 +1,203 @@
+#!/usr/bin/env ruby
+
+# matrix.rb
+# MB version (heavily broken)
+
+
+# class MatrixArgumentError < ArgumentError; end
+# class MatrixRuntimeError < RuntimeError; end
+
+class Matrix
+  def initialize(rows, cols = nil, value = 0)
+    @rows = rows
+    cols = rows if not cols
+    @cols = cols
+
+    if not @rows.is_a?(Integer) then
+      raise ArgumentError("Rows must be int")
+    end
+    raise ArgumentError("Cols must be int") if not @cols.is_a?(Integer)
+
+    @matrix = Array.new(@rows * @cols) {value}
+
+    if block_give? then
+      for i in 0...@rows
+        for j in 0...@cols
+          val = yield(i, j)
+          raise ArgumentError("Value must be Numeric") if not val.is_a?(Numeric)
+          self[i, j] = val
+        end
+      end
+    end
+  end
+
+  attr_reader :rows, :cols, :matrix
+  protected :matrix
+
+  # Returns an n-by-n identity matrix with ones on the main diagonal
+  # and zeros elsewhere
+  def Matrix.eye(n)
+    return Matrix.new(n) {|i, j| i == j ? 1 : 0 }
+  end
+
+  # Returns an r-by-c matrix with random Integers
+  def Matrix.rand(r, c = nil, range = (0.0)..(1.0))
+    return Matrix.new(r, c) {Random.rand(range)}
+  end
+
+  # ---------------------------------------------------------------------------
+  # Access operations
+
+  # Provide reading access
+  # Example: my_matrix[row, col]
+  def [](i, j)
+    raise ArgumentError, "i must be Integer" if not i.is_a? Integer
+    raise ArgumentError, "j must be Integer" if not j.is_a? Integer
+
+    if i >= @rows || j >= @cols || i < 0 || j < 0
+      raise RuntimeError, "[#{i}, #{j}] OutOfBound [#{@rows-1}, #{@cols-1}]"
+    end
+
+    return @matrix[i * @cols + j]
+  end
+
+  # Provide writing cap.
+  # Example: my_matrix[row, col] = 42
+  def []=(i, j, value)
+    raise ArgumentError, "value must be Numeric" if not value.is_a? Numeric
+    raise ArgumentError, "i must be Integer" if not i.is_a? Integer
+    raise ArgumentError, "j must be Integer" if not j.is_a? Integer
+
+    if i >= @rows || j >= @cols || i < 0 || j < 0
+      raise RuntimeError, "[#{i}, #{j}] OutOfBound [#{@rows-1}, #{@cols-1}]"
+    end
+
+    @matrix[i * @cols + j] = value
+    return
+  end
+
+
+  # ---------------------------------------------------------------------------
+  # Math operations
+
+  # Returns sum of the two matrix as a new matrix.
+  def +(m)
+    raise ArgumentError, "m must be Matrix" if not m.is_a? Matrix
+    raise ArgumentError, "m must have same size" if m.cols != @cols || m.rows != @rows
+
+    return Matrix.new(@rows, @cols) {|i,j| self[i,j] + m[i,j]}
+  end
+
+  # Returns difference of the two matrix as a new matrix.
+  def -(m)
+    raise ArgumentError, "m must be Matrix" if not m.is_a? Matrix
+    raise ArgumentError, "m must have same size" if m.cols != @cols || m.rows != @rows
+
+    return Matrix.new(@rows, @cols) {|i,j| self[i,j] - m[i,j]}
+  end
+
+  # Matrix-by-Matrix product (new matrix returned)
+  # Matrix-by-Scalar product
+  def *(a)
+    if a.is_a? Numeric then
+      return Matrix.new(@rows, @cols) {|i,j| self[i,j] * a}
+    end
+
+    if not a.is_a? Matrix then
+      raise ArgumentError, "a must be Matrix or Numeric"
+    end
+
+    raise ArugmentError, "self.cols those not match other.rows" if @cols != a.rows
+
+    return Matrix.new(@rows, a.cols) { |i,j|
+      r = 0
+      for k in 0...@cols
+        r += self[i,k] * a[k,j]
+      end
+      return r
+    }
+  end
+
+  # Return transposition as new matrix.
+  def t
+    return Matrix.new(@rows, @cols) {|i,j| self[j,i]}
+  end
+
+  # ---------------------------------------------------------------------------
+  # Loops support
+
+  # https://ruby-doc.org/core-2.5.0/Enumerable.html
+  # Enumerable mixin provides map & friends, requires implementation of "each".
+  # Would provide also min, max, and sort but requires "<=>"
+  include Enumerable
+  def each
+    # impl. on matrix
+    #for i in 0...@matrix.size
+    #  yield @matrix[i]
+    #end
+
+    for i in 0...@rows
+      for j in 0...@cols
+        yield(self[i,j])
+      end
+    end
+
+    return self
+  end
+
+
+  # ---------------------------------------------------------------------------
+  # Common methods
+
+  def size
+    return [@rows, @cols]
+  end
+
+  def length
+    return @rows * @cols
+  end
+
+  def ==(o)
+    return false if not o.is_a? Matrix
+    return false if @size != o.size
+
+    for i in 0...@rows
+      for j in 0...@cols
+        if self[i,j] != o[i,j]
+          return false
+        end
+      end
+    end
+    return true
+  end
+
+  def <=>(b)
+    # we must define (inventare) ordering first
+  end
+
+  # String representation
+  def to_s
+    s = []
+    for i in 0...@rows
+      for j in 0...@cols
+        s << "#{self[i,j]} "
+      end
+      s << "\n"
+    end
+    return s.join('')
+  end
+
+  def to_file
+    s = []
+    s << "#{@rows}"
+    s << "#{@cols}"
+    s += @matrix
+    return s.join(',')
+  end
+
+  def Matrix.from_file(repr)
+    a = repr.split(',')
+    rows, cols = a[0], a[1]
+    return Matrix.new(rows, cols) {|i,j| a[i * cols + j + 2]}
+  end
+end

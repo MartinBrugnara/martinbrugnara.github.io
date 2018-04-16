@@ -1,0 +1,106 @@
+
+class Example
+
+  # ---------------------------------------------------------------------------
+  # Example 1
+
+  # @ is an alias for self.
+  # Self in the contest of the class declaration refers to the class itself.
+  # Indeed, we use def "self.my_method" to define class methods.
+  # This implies that @cls_var in the context of a class declaration (like follows)
+  # is equivalent to @@cls_var inside an (instance) method definition.
+  @cls_var = "I am class variable"
+
+  # Since cls_var is a variable and not a constant, accessors method are always required.
+  # And must be explicitly defined
+  def self.cls_var
+    # NOTE: self here always refer to the class Example and to an instance.
+    @cls_var
+  end
+
+
+  # ---------------------------------------------------------------------------
+  # Example 2
+
+  # NOTE: the method name may be the same as of the variable.
+  # implementation via explicit getter and setter.
+  @cls_var_cname = 123
+  def self.cls_var_cname; @cls_var_cname; end
+  def self.cls_var_cname=(val); @cls_var_cname = val; end
+
+
+  # ---------------------------------------------------------------------------
+  # Example 3
+
+  # This variable exists only while the class is built.
+  cls_var2 = "I do exists only while the class is built"
+
+  # Let's verify it, trying to access it.
+  def self.cls_var2_1; defined?  cls_var2; end
+  def self.cls_var2_2; defined?  @cls_var2; end
+  def self.cls_var2_3; defined?  self.cls_var2; end
+  def self.cls_var2_4; defined?  Example.cls_var2; end
+  def cls_var2_5; defined?  cls_var2; end
+  def cls_var2_6; defined?  @cls_var2; end
+  def cls_var2_7; defined?  self.cls_var2; end
+  def cls_var2_8; defined?  Example.cls_var2; end
+
+
+  # ---------------------------------------------------------------------------
+  # Example 4
+
+  # Constants may be defined as class attributes and does not require
+  # the use of "self" or getters.
+  CLS_CONST_1 = 789
+
+
+  # ---------------------------------------------------------------------------
+  # Example 5
+
+  # Instance attributes and Instance constants must be defined inside a method
+  # like "initialize". Non constant attributed requires getters and setters,
+  # where constant does not.
+  def initialize
+    # Constant
+    @INST_CONST_1 = 12
+    # Externally readable and writable var
+    @var_1 = 13
+    # Externally read only
+    @read_only_var = 14
+    # Externally write only
+    @write_only_var = 15
+
+    # Protected read only
+    @prot_var = 42
+  end
+
+  attr_accessor :var_1
+  attr_reader :read_only_var
+  attr_writer :write_only_var
+
+  # Visibility of getter and setter can be modified too.
+  attr_reader :prot_var
+  protected :prot_var
+end
+
+
+# `<main>': undefined method `cls_var' for Example:Class (NoMethodError)
+# puts Example.cls_var
+
+puts "Example 1: #{Example.cls_var}"
+
+puts "Example 2: #{Example.cls_var_cname}"
+Example.cls_var_cname = 345
+puts "Example 2: #{Example.cls_var_cname}"
+
+ex = Example.new
+puts "Example 3: Is cls_var2 defined in any of the getter we tested? " + [
+  Example.cls_var2_1,
+  Example.cls_var2_2,
+  Example.cls_var2_3,
+  Example.cls_var2_4,
+  ex.cls_var2_5,
+  ex.cls_var2_6,
+  ex.cls_var2_7,
+  ex.cls_var2_8,
+].any?.to_s
