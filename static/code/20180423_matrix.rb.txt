@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # matrix.rb
-# MB version (heavily broken)
+# MB version (fixed w/tests)
 
 
 # class MatrixArgumentError < ArgumentError; end
