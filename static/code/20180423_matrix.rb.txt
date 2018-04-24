@@ -1,0 +1,512 @@
+#!/usr/bin/env ruby
+
+# matrix.rb
+# MB version (heavily broken)
+
+
+# class MatrixArgumentError < ArgumentError; end
+# class MatrixRuntimeError < RuntimeError; end
+
+class Matrix
+  def initialize(rows, cols = nil, value = 0)
+    @rows = rows
+    cols = rows if not cols
+    @cols = cols
+
+    if not @rows.is_a?(Integer) then
+      raise ArgumentError, "Rows must be int"
+    end
+    raise ArgumentError, "Cols must be int" if not @cols.is_a?(Integer)
+
+    raise ArgumentError, "Value must be Numeric" if not value.is_a?(Numeric)
+    @matrix = Array.new(@rows * @cols) {value}
+
+    if block_given? then
+      for i in 0...@rows
+        for j in 0...@cols
+          val = yield(i, j)
+          raise ArgumentError, "Value must be Numeric" if not val.is_a?(Numeric)
+          self[i, j] = val
+        end
+      end
+    end
+  end
+
+  attr_reader :rows, :cols, :matrix
+  protected :matrix
+
+  # Returns an n-by-n identity matrix with ones on the main diagonal
+  # and zeros elsewhere
+  def Matrix.eye(n)
+    return Matrix.new(n) {|i, j| i == j ? 1 : 0 }
+  end
+
+  # Returns an r-by-c matrix with random Integers
+  def Matrix.rand(r, c = nil, range = (0.0)..(1.0))
+    return Matrix.new(r, c) {Random.rand(range)}
+  end
+
+  # ---------------------------------------------------------------------------
+  # Access operations
+
+  # Provide reading access
+  # Example: my_matrix[row, col]
+  def [](i, j)
+    raise ArgumentError, "i must be Integer" if not i.is_a? Integer
+    raise ArgumentError, "j must be Integer" if not j.is_a? Integer
+
+    if i >= @rows || j >= @cols || i < 0 || j < 0
+      raise RuntimeError, "[#{i}, #{j}] OutOfBound [#{@rows-1}, #{@cols-1}]"
+    end
+
+    return @matrix[i * @cols + j]
+  end
+
+  # Provide writing cap.
+  # Example: my_matrix[row, col] = 42
+  def []=(i, j, value)
+    raise ArgumentError, "value must be Numeric" if not value.is_a? Numeric
+    raise ArgumentError, "i must be Integer" if not i.is_a? Integer
+    raise ArgumentError, "j must be Integer" if not j.is_a? Integer
+
+    if i >= @rows || j >= @cols || i < 0 || j < 0
+      raise RuntimeError, "[#{i}, #{j}] OutOfBound [#{@rows-1}, #{@cols-1}]"
+    end
+
+    @matrix[i * @cols + j] = value
+    return
+  end
+
+
+  # ---------------------------------------------------------------------------
+  # Math operations
+
+  # Returns sum of the two matrix as a new matrix.
+  def +(m)
+    raise ArgumentError, "m must be Matrix" if not m.is_a? Matrix
+    raise ArgumentError, "m must have same size" if m.size() != self.size()
+
+    return Matrix.new(@rows, @cols) {|i,j| self[i,j] + m[i,j]}
+  end
+
+  # Returns difference of the two matrix as a new matrix.
+  def -(m)
+    raise ArgumentError, "m must be Matrix" if not m.is_a? Matrix
+    raise ArgumentError, "m must have same size" if m.size() != self.size()
+
+    return Matrix.new(@rows, @cols) {|i,j| self[i,j] - m[i,j]}
+  end
+
+  # Matrix-by-Matrix product (new matrix returned)
+  # Matrix-by-Scalar product
+  def *(a)
+    if a.is_a? Numeric then
+      return Matrix.new(@rows, @cols) {|i,j| self[i,j] * a}
+    end
+
+    if not a.is_a? Matrix then
+      raise ArgumentError, "a must be Matrix or Numeric"
+    end
+
+    raise ArugmentError, "self.cols those not match other.rows" if @cols != a.rows
+
+    return Matrix.new(@rows, a.cols) { |i,j|
+      r = 0
+      for k in 0...@cols
+        r += self[i,k] * a[k,j]
+      end
+      r
+    }
+  end
+
+  # Return transposition as new matrix.
+  def t
+    return Matrix.new(@cols, @rows) {|i,j| self[j,i]}
+  end
+
+  # ---------------------------------------------------------------------------
+  # Loops support
+
+  # https://ruby-doc.org/core-2.5.0/Enumerable.html
+  # Enumerable mixin provides map & friends, requires implementation of "each".
+  # Would provide also min, max, and sort but requires "<=>"
+  include Enumerable
+  def each
+    # impl. on matrix
+    #for i in 0...@matrix.size
+    #  yield @matrix[i]
+    #end
+
+    for i in 0...@rows
+      for j in 0...@cols
+        yield(self[i,j])
+      end
+    end
+
+    return self
+  end
+
+
+  # ---------------------------------------------------------------------------
+  # Common methods
+
+  def size
+    return [@rows, @cols]
+  end
+
+  def length
+    return @rows * @cols
+  end
+
+  def ==(o)
+    return false if not o.is_a? Matrix
+    return false if self.size != o.size
+
+    for i in 0...@rows
+      for j in 0...@cols
+        if self[i,j] != o[i,j]
+          return false
+        end
+      end
+    end
+    return true
+  end
+
+  def <=>(b)
+    # we must define (inventare) ordering first
+    raise NotImplementedError
+  end
+
+  # String representation
+  def to_s
+    s = []
+    for i in 0...@rows
+      for j in 0...@cols
+        s << "#{self[i,j]} "
+      end
+      s << "\n"
+    end
+    return s.join('')
+  end
+
+  def to_file
+    s = []
+    s << @rows
+    s << @cols
+    s += @matrix
+    return s.join(',')
+  end
+
+  def Matrix.from_file(repr)
+    a = repr.split(',')
+    rows, cols = a[0].chomp.to_i, a[1].chomp.to_i
+    return Matrix.new(rows, cols) {|i,j|
+      val = a[i * cols + j + 2].chomp
+      val.include?(".") ? val.to_f : val.to_i
+    }
+  end
+end
+
+
+
+# 1) Syntax errors: ruby fixing_matrix.rb
+
+# 2a) New Instance & size()
+m = Matrix.new(2)
+raise "Contructor of square matrix || size" unless m.size() == [2,2]
+m = Matrix.new(3, 4)
+raise "Contructor of NxM matrix || size" unless m.size() == [3,4]
+
+# 2b) New Instance with default value && to_s()
+m = Matrix.new(2, 2) # default 0
+raise "Contructor square w/default const || to_s" unless m.to_s() == "0 0 \n0 0 \n"
+m = Matrix.new(2, 2, 3)
+raise "Contructor square w/default const || to_s" unless m.to_s() == "3 3 \n3 3 \n"
+m = Matrix.new(2, 3, 5)
+raise "Contructor NxM w/default const || to_s" unless m.to_s() == "5 5 5 \n5 5 5 \n"
+
+# 2c) New Instance with value from block
+m = Matrix.new(2, 2) {|r, c| (r+1)*10 + c+1}
+raise "Contructor square w/block" unless m.to_s() == "11 12 \n21 22 \n"
+m = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+raise "Contructor NxM w/block" unless m.to_s() == "11 12 13 \n21 22 23 \n"
+
+# 3a) Static constructors eye
+m = Matrix::eye(3)
+raise "Contructor ::eye" unless m.to_s() == "1 0 0 \n0 1 0 \n0 0 1 \n"
+
+# 3b) Static constructors eye
+#   can not check for actual value, but we can check for very unlikely scenarios:
+#   1) all 0. 2) Two identical instances
+m = Matrix::rand(3)
+raise "Contructor ::random (prob. check)" if m.to_s() == "0 0 0 \n0 0 0 \n0 0 0 \n"
+# Note we can not use m == m2 because we did not checked yet equality implementation
+# but we can check their string representation (to_s) - for the purpose of this test.
+m2 = Matrix::rand(3)
+raise "Contructor ::random (prob. check)" if m.to_s() == m2.to_s()
+# lets check dimension and random
+m = Matrix::rand(1, 2)
+raise "Contructor ::random (prob. check)" if m.size != [1,2]
+# TODO: check random values. For now check that runs
+Matrix::rand(1, 2, 2..5)
+
+
+# Getter
+m = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+raise "Getter" unless m[0, 0] == 11 # plain access
+raise "Getter" unless m[0, 1] == 12 # check if swaps cols,rows
+raise "Getter" unless m[1, 2] == 23 # random access
+
+# Setter
+m = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m[0, 1] = 112
+m[1, 2] = 113
+raise "Setter" unless m[0, 1] == 112
+raise "Setter" unless m[1, 2] == 113
+raise "Setter" unless m[0, 1] == 112 # check nothing changed
+
+# ==
+m1 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m2 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m3 = Matrix.new(2, 3) {|r, c| r + c}
+m4 = Matrix.new(2, 4) {|r, c| (r+1)*10 + c+1}
+raise "== identity" unless m1 == m1
+raise "== same values" unless m1 == m2
+raise "== same size, diff values" unless m1 != m3
+raise "== different size, same subet values" unless m1 != m4 && m4 != m1
+raise "== different type" unless m1 != 3 && 5 != m1
+
+# Sum
+m1 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m2 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m3 = Matrix.new(2, 3) {|r, c| ((r+1)*10 + c+1) * 2}
+raise "sum" unless (m1 + m2) == m3
+
+# Sub
+m1 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m2 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m3 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1 - 1}
+raise "sub" unless (m1 - m2) == Matrix.new(2,3)
+raise "sub" unless (m1 - Matrix.new(2,3,1)) == m3
+
+# mul scalar
+m1 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m2 = Matrix.new(2, 3) {|r, c| ((r+1)*10 + c+1) * 3}
+raise "* scalar" unless (m1 * 3) == m2
+
+# mul matrix (a)
+m1 = Matrix.new(2, 2) {|r, c| (r+1)*10 + c+1}
+# [[373, 396], [693, 736]]
+m1m1 = Matrix.new(2, 2)
+m1m1[0,0] = 373
+m1m1[0,1] = 396
+m1m1[1,0] = 693
+m1m1[1,1] = 736
+raise "* matrix" unless (m1 * m1) == m1m1
+
+# to_file, from_file (int)
+m1 = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+raise "to_file" unless m1.to_file() == "2,3,11,12,13,21,22,23"
+m2 = Matrix::from_file(m1.to_file())
+raise "::from_file int" unless m1 == m2
+
+# to_file, from_file (float)
+m1 = Matrix::rand(3,3,(0.0)..(1.0))
+m2 = Matrix::from_file(m1.to_file())
+raise "::from_file float" unless m1 == m2
+
+# mul matrix (b)
+m1 = Matrix::from_file("2,3,6,9,4,2,8,2")
+m2 = Matrix::from_file("3,2,4,5,9,3,3,7")
+m3 = Matrix::from_file("2,2,117,85,86,48")
+raise "compatible matrix *" unless (m1 * m2) == m3
+
+# transpose
+m1 = Matrix::from_file("2,3,6,9,4,2,8,2")
+m2 = Matrix::from_file("3,2,6,2,9,8,4,2")
+raise "transpose" unless m1.t() == m2
+raise "transpose" unless m1.t().t() == m1
+
+# loop
+m = Matrix.new(2, 3) {|r, c| (r+1)*10 + c+1}
+m.each_with_index { |item, index|
+  row = index / m.cols
+  col = index % m.cols
+  raise "loop error" unless m[row, col] == (row+1)*10 + col+1
+  raise "loop error" unless m[row, col] == item
+}
+
+# size
+m = Matrix::rand(3)
+raise "length" unless m.length() == 9
+m = Matrix::rand(8)
+raise "length" unless m.length() == m.cols * m.rows
+
+
+# ------- Test precondition
+begin
+  Matrix.new(22.1)
+rescue
+else
+  raise "[Miss] Constructor, rows"
+end
+
+begin
+  Matrix.new(1, 1.1)
+rescue
+else
+  raise "[Miss] Constructor, cols"
+end
+
+begin
+  Matrix.new(1, 2, "bla")
+rescue
+else
+  raise "[Miss] Constructor, const"
+end
+
+begin
+  Matrix.new(1, 2) {"sa"}
+rescue
+else
+  raise "[Miss] Constructor, block val"
+end
+
+
+m = Matrix::rand(3, 4)
+# -- getter
+begin
+  m[12.1, 2]
+rescue
+else
+  raise "[Miss] get, row type"
+end
+
+begin
+  m[2, 2.2]
+rescue
+else
+  raise "[Miss] get, col type"
+end
+
+begin
+  m[3, 0]
+rescue
+else
+  raise "[Miss] get, row range"
+end
+
+begin
+  m[-3, 0]
+rescue
+else
+  raise "[Miss] get, row range"
+end
+
+begin
+  m[0, 4]
+rescue
+else
+  raise "[Miss] get, col range"
+end
+
+begin
+  m[0, -4]
+rescue
+else
+  raise "[Miss] get, col range"
+end
+
+# -- setter
+begin
+  m[12.1, 2] = 1
+rescue
+else
+  raise "[Miss] set, row type"
+end
+
+begin
+  m[2, 2.2] = 1
+rescue
+else
+  raise "[Miss] set, col type"
+end
+
+begin
+  m[3, 0] = 1
+rescue
+else
+  raise "[Miss] set, row range"
+end
+
+begin
+  m[-3, 0] = 1
+rescue
+else
+  raise "[Miss] set, row range"
+end
+
+begin
+  m[0, 4] = 1
+rescue
+else
+  raise "[Miss] set, col range"
+end
+
+begin
+  m[0, -4] = 1
+rescue
+else
+  raise "[Miss] set, col range"
+end
+
+m[0, 0] = 2.2 # Must pass
+begin
+  m[0, 0] = "ciao" # must fail
+rescue
+else
+  raise "[Miss] set, col range"
+end
+
+# ---- math
+begin
+  m + "ciao"
+rescue
+else
+  raise "[Miss] sum type"
+end
+
+begin
+  Math.new(2,3) + Math.new(4)
+rescue
+else
+  raise "[Miss] sum dimension"
+end
+
+begin
+  m - "ciao"
+rescue
+else
+  raise "[Miss] sub type"
+end
+
+begin
+  Math.new(2,3) - Math.new(4)
+rescue
+else
+  raise "[Miss] sub dimension"
+end
+
+begin
+  Math.new(2,3) * "f"
+rescue
+else
+  raise "[Miss] * type"
+end
+
+begin
+  Math.new(2,3) * Math.new(4)
+rescue
+else
+  raise "[Miss] * dimension"
+end
