@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+=begin
+Scivere la funzione local_min(vec) che dato un vettore di numeri
+calcola le posizioni dei minimi locali cioe’ gli indici tali che:
+                          vi−1>vi<vi+1
+
+La funzione deve restituire una hash dove la chiave è un numero
+che è il numero crescente del minimo trovato e come valore
+la triade di valori del minimo locale.
+
+Ad esempio dato il vettore.
+[ 1, 2, 3,-1,2, 3, 4, 5, 8, 1, 1, 0, 1]
+
+deve restituire:
+
+{
+  1 => [ 3, -1, 2 ],
+  2 => [ 1, 0, 1 ]
+}
+
+Ref: https://www.ragni.me/ncalc/solutions/localmin
+=end
+
+
+def local_min(vec)
+  # Per prima cosa controlliamo gli input
+  raise ArgumentError, "vec deve essere un Array" unless vec.is_a? Array
+  vec.each do |i|
+    raise ArgumentError, "vec deve contenere Numeric" unless i.is_a? Numeric
+  end
+
+  # Costruiamo l'hash da ritornare e l'indice del minimo
+  r = {}
+  idx = 0
+
+  # Iteriamo dall'inizio + 1 dell'Array fino alla fine - 1, dove
+  # possiamo veramente valutare la posizione dei minimi
+  for i in 1...(vec.size - 1)
+    if vec[i] < vec[i-1] and vec[i] < vec[i+1]  # condizione di minimo
+      idx += 1
+      r[idx] = vec[(i-1)..(i+1)]
+    end
+  end
+  # Ritorniamo il risultato
+  return r
+end
+
+puts local_min [ 1, 2, 3,-1,2, 3, 4, 5, 8, 1, 1, 0, 1]

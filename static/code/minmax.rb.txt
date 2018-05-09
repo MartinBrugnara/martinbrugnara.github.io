@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+=begin
+Scivere la funzione max_min(vec) che dato un vettore di numeri calcola il
+massimo degli elementi di indice pari e il minimo degli elementi di indice dispari.
+Il risultato è restituito in una hash con i campi :max e :min.
+
+Si assuma:
+> Il vettore ha dimensione minima 2
+> Gli elementi del vettore sono Numeric
+
+https://www.ragni.me/ncalc/esercizi/#max-min
+https://www.ragni.me/ncalc/solutions/maxmin
+=end
+
+def max_min(vec)
+  # Controllo precondizioni
+  # vec deve essere array di dimensione almeno 2.
+  raise ArgumentError, "L'argomento deve essere un Array" unless vec.is_a? Array
+  raise ArgumentError, "L'array deve contenere alemno 2 elementi" unless vec.length >= 2
+  # verifico tipo degli elemtni.
+  vec.each do |i|
+    raise ArgumentError, "gli elementi dell'Array devono essere Numeric" unless i.is_a? Numeric
+  end
+
+  even_max = vec[0]
+  odd_min = vec[1]
+
+  # Continuiamo a esplorare il resto dell'Array
+  for i in 2...vec.size
+    value = vec[i]
+    if i % 2 == 0 and value > even_max
+      even_max = value
+    elsif i % 2 == 1 and value < odd_min
+      odd_min = value
+    end
+  end
+
+  return {:min => odd_min, :max => even_max}
+end
