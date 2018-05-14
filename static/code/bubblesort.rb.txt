@@ -1,0 +1,101 @@
+#!/usr/bin/env ruby
+
+=begin
+# Simple version
+procedure bubbleSort( A : list of sortable items )
+    n = length(A)
+    repeat
+        swapped = false
+        for i = 1 to n-1 inclusive do
+            /* if this pair is out of order */
+            if A[i-1] > A[i] then
+                /* swap them and remember something changed */
+                swap( A[i-1], A[i] )
+                swapped = true
+            end if
+        end for
+    until not swapped
+end procedure<Paste>
+
+# Optimzed version
+# inutition: all items after latest swap position are ordered.
+procedure bubbleSort( A : list of sortable items )
+    n = length(A)
+    repeat
+        newn = 0
+        for i = 1 to n-1 inclusive do
+            if A[i-1] > A[i] then
+                swap(A[i-1], A[i])
+                newn = i
+            end if
+        end for
+        n = newn
+    until n = 0
+end procedure
+
+Ref: https://en.wikipedia.org/wiki/Bubble_sort
+=end
+
+
+def bubbleSort(lst)
+  a = Array.new(lst)
+  loop do
+    swapped = false
+    for i in 1...a.length do
+      if a[i-1] > a[i] then
+        a[i-1], a[i] = a[i], a[i-1]
+        swapped = true
+      end
+    end
+
+    # No changes were made -> it's sorted.
+    break if not swapped
+  end
+  return a
+end
+
+def bubbleSortOpt(lst)
+  a = Array.new(lst)
+  n = a.length
+  loop do
+    # Safe default: min. swap value (i) is 1.
+    newn = 0
+    # Sort only non sorted values.
+    for i in 1...n do
+      if a[i-1] > a[i] then
+        a[i-1], a[i] = a[i], a[i-1]
+        # Record last modified location
+        newn = i
+      end
+    end
+    n = newn
+    # No changes were made -> it's sorted.
+    break if newn == 0
+  end
+  return a
+end
+
+
+# Lets test them agains ruby .sort on 10 different random arrays
+n = 20 # max test array size
+m = 10 # max random value
+1.upto 10 do
+  a = Array.new(Random.rand(n)) {Random.rand(m)}
+
+  gold = a.sort
+  bs = bubbleSort(a)
+  bso = bubbleSortOpt(a)
+
+  if bs != gold then
+    puts "Gold: #{gold}"
+    puts "Bs:   #{bs}"
+    raise "bubbleSort is broken"
+  end
+
+  if bso != gold then
+    puts "Gold: #{gold}"
+    puts "Bso:  #{bso}"
+    raise "bubbleSortOpt is broken"
+  end
+end
+puts "Everithing fine"

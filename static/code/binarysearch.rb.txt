@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+=begin
+function binarySearchIterativo(array A, int p, int r, int v)
+    if v < A[p] or v > A[r]
+        return -1
+    while p <= r
+        q=(p+r)/2
+        if A[q] == v
+            return q
+        if A[q] > v
+            r = q-1
+        else
+            p = q+1
+    return -1
+
+Ref: https://it.wikipedia.org/w/index.php?title=Ricerca_dicotomica&oldid=92835781
+=end
+
+
+# return position of the value in the array
+#        nil if not found
+def binarySearch(a, value)
+  # Precondition: lst must be sorted asc (smaller first).
+
+  # Searching boundaries (all vector)
+  p = 0               # left  limit (inclusive)
+  r = a.length - 1  # right limit (inclusive)
+
+  # Optimization
+  # Asses that value may actually be in the array: Array range is a[0]..a[-1]
+  # Array must be not empty
+  if r < 0 or value < a[p] or value > a[r] then
+    return nil  # nil inplace of -1 to match ruby std
+  end
+
+  while p <= r do
+    q = (p+r)/2
+    if a[q] == value
+      return q
+    end
+    if a[q] > value
+      # then value is in a[p]...a[q]
+      r = q-1
+    else
+      # then value is in a[q]...a[r]
+      p = q+1
+    end
+  end
+
+  return nil  # nil inplace of -1 to match ruby std
+end
+
+# Lets test is agains .index
+n = 10 # max test array size
+1.upto 10 do
+  a = Array.new(Random.rand(n)) {|i| i**2}
+
+  # This will be there for sure
+  tval = Random.rand(n-1) ** 2
+  g = a.index(tval)
+  bs = binarySearch(a, tval)
+  raise "False negative #{g} vs #{bs}" unless bs == g
+
+  # This can't be there
+  tval = Random.rand(n-1) ** 2 + 1
+  g = a.index(tval)
+  bs = binarySearch(a, tval)
+  raise "False positive #{g} vs #{bs}" unless bs == g
+
+  # This may or may not be there
+  tval = Random.rand((n-1) ** 2)
+  g = a.index(tval)
+  bs = binarySearch(a, tval)
+  raise "Broken #{g} vs #{bs}" unless bs == g
+end
+puts "Everithing fine"
