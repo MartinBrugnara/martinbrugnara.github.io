@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+=begin
+Scrivere la funzione newton che si aspetta 3 argomenti:
+
+    x0 punto iniziale
+    maxiter massimo numero di iterate
+    tol tolleranza
+
+ed un blocco che restituisce un vettore con valore della funzione e sua derivata. La funzione deve implementare il metodo di Newton.
+
+Ad esempio per calcolare lo 0 di:
+f(x)=x2−2
+
+con f′(x)=2x
+
+scriveremo:
+
+x0  = 1.0  # punto iniziale
+tol = 1e-8
+x = newton( x0, 100, tol ) { |x| [ x**2 - 2.0, 2.0*x ] }
+puts x
+
+def newton(x0, maxiter, tol)
+  # completare
+end
+
+https://www.ragni.me/ncalc/esercizi/#newton
+https://it.wikipedia.org/wiki/Metodo_delle_tangenti
+https://paws.kettering.edu/~ktebeest/math305/newton.html
+
+newton:
+x_(n+1) = x_n - f(x_n) / f'(x_n)
+
+=end
+
+def newton(x0, maxiter, tol)
+  # TODO: add checks
+
+  x = x0
+  1.upto maxiter do
+    y0, yprime = yield x
+    return x if y0.abs < tol
+    x = x - y0 / yprime
+  end
+  return nil
+end
+
+# Esempio:
+puts newton(1.0, 100, 1e-8) { |x| [ x**2 - 2.0, 2.0*x ] }

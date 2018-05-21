@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+
+=begin
+Realizzare un programma in grado di calcolare la classifica di un campionato
+di calcio giocato tra N squadre, numerate consecutivamente a partire da 0.
+I risultati delle partite sono memorizzati in un file ASCII
+ il cui nome e’ passato come primo argomento alla funzione classifica.
+
+Questo file contiene un risultato per riga nel formato:
+squadra1,squadra2,goal1,goal2
+
+dove squadra1 e squadra2 sono stringhe con i nomi delle squadre che si sono
+incontrate mentre goal1 e goal2 sono le reti segnate da ciascuna squadra.
+ Le colonne sono separate da una virgola “,”.
+
+Il programma deve calcolare e riempire una hash di output.
+Le chiavi della hash sono stinghe e sono i nomi delle squadre.
+I valori della hash sono a loro volta delle hash chiave-valore che contengono:
+
+    :partite       numero di partite giocate
+    :punti: i punti conseguiti (si ricorda che la vittoria vale tre punti ed il pareggio un punto)
+    :vinte: numero di partite vinte
+    :perse: numero di partite perse
+
+A titolo di esempio, supponendo che il file CAMPIONATO.TXT contenga le seguenti informazioni:
+
+ROSSI,BIANCHI,1,1
+VERDI,NERI,1,0
+ROSSI,NERI,20,3
+
+allora la hash risultante deve contenere le seguenti informazioni:
+
+{
+   'ROSSI'   => {  :partite => 2, :punti => 4, :vinte => 1, :perse => 0 },
+   'BIANCHI' => {  :partite => 1, :punti => 1, :vinte => 0, :perse => 0 },
+   'NERI'    => {  :partite => 2, :punti => 0, :vinte => 0, :perse => 2 },
+   'VERDI'   => {  :partite => 1, :punti => 3, :vinte => 1, :perse => 0 },
+}
+
+https://www.ragni.me/ncalc/esercizi/#campionato
+=end
+
+# File.open(filename).each do |line|
+def campionato(filename)
+  campionato_array(File.readlines(filename))
+end
+
+def campionato_array(lst)
+  res = Hash.new()
+  lst.each do |match|
+    # Unpack entry
+    home, guest, home_score, guest_score = match.split(',')
+    home_score, guest_score = home_score.to_i, guest_score.to_i
+
+    # Prepare default for new teams.
+    [home, guest].each do |team|
+      if not res[team] then
+        res[team] = {:partite => 0, :punti => 0, :vinte => 0, :perse => 0}
+      end
+    end
+
+    res[home][:partite] += 1
+    res[guest][:partite] += 1
+    if home_score > guest_score then
+      res[home][:punti] += 3
+      res[home][:vinte] += 1
+      res[guest][:perse] += 1
+    elsif home_score < guest_score
+      res[guest][:punti] += 3
+      res[guest][:vinte] += 1
+      res[home][:perse] += 1
+    else
+      res[home][:punti] += 1
+      res[guest][:punti] += 1
+    end
+  end
+
+  return res
+end
+
+test_data = [
+  "ROSSI,BIANCHI,1,1",
+  "VERDI,NERI,1,0",
+  "ROSSI,NERI,20,3",
+]
+puts campionato_array(test_data)

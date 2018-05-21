@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+
+=begin
+
+Scrivere la funzione halley che si aspetta 3 argomenti:
+
+    x0: approssimazione iniziale della radice
+    tol: tolleranza ammessa
+    imax: massimo numero di iterate
+
+ed un blocco che restituisce una hash con valore della funzione con le sue prime 2 derivate della quale cerchiamo lo zero. Le 3 chiavi sono:
+
+    :f: valore della funzione
+    :df: valore della derivata prima della funzione
+    :ddf: valore della derivata seconda della funzione
+
+La funzione deve implementare il metodo iterativo di Halley per il calcolo dello zero di una funzione. La funzione restituisce una hash con 3 chiavi:
+
+    :solution: con la soluzione
+    :iter: un intero con il conteggio del numero delle iterate fatte
+    :converged: true/false (vero se arrivato a convegenza)
+
+Se xk è la ultima iterata, xk+1 con il metodo di Halley si calcola con la formula:
+
+x_(k+1) = x_k - (f(x_k) * f'(x_k)) / (f'(x_k)**2 - f(x_k) * f''(x_k) * 0.5)
+
+Le iterazioni terminano se si supera imax (fallimento) o se −tol≤f(xk)≤tol (successo)
+
+=end
+
+def halley(x0, tol, imax)
+  # TODO: add checks
+
+  x = x0
+  # 0.upto(imax - 1) do |i|
+  # TODO: next time shall better clarify
+  #       if step 0 is 0 or 1.
+  #       i.e. no x update counts as iter 0 or 1?
+  #   Currently matching Ragni implementation
+  1.upto(imax) do |i|
+    y = yield x
+    return {solution: x, iter: i, converged: true} if y[:f].abs <= tol
+    x = x - (y[:f] * y[:df]) / (y[:df]**2 - y[:f] * y[:ddf] * 0.5)
+  end
+  return {solution: x, iter: i, converged: false}
+end
+
+
+
+
+
+def halley_ragni(x0, tol, imax)
+  # Per prima cosa controlliamo gli argomenti in ingresso. Ad esempio:
+  #  * x0 deve essere un Numeric (in seguito lo forziamo Float)
+  #  * la tolleranza non può non essere un Float
+  #  * imax è un numero Intero
+  #  * alla funzione deve essere fornito un blocco
+  raise ArgumentError, "x0 deve essere un numero" unless x0.is_a? Numeric
+  raise ArgumentError, "tol deve essere un Float" unless tol.is_a? Float
+  raise ArgumentError, "imax deve essere un Fixnum" unless imax.is_a? Integer
+  raise ArgumentError, "la funzione richiede un blocco" unless block_given?
+
+  # Costruiamo l'hash della soluzione contenente le chiavi richieste.
+  # Inizializziamo la soluzione al valore iniziale x0, le iterate a 0
+  # e costringiamo la convergenza a false
+  h = {
+    solution:  x0.to_f,
+    iter:      0,
+    converged: false
+  }
+
+  # fintant che non siamo arrivati al numero massimo di iterazioni
+  while h[:iter] < imax
+    # incrementiamo le iterazioni
+    h[:iter] += 1
+
+    # Richiediamo al blocco i valori richiesti, che sono passati per
+    # mezzo di una hash
+    blk = yield h[:solution]
+
+    # Valuiamo il valore della funzione nel punto calcolato. Se la
+    # funzione ha valore inferiore a tol, allora non continuiamo
+    # e usciamo dopo aver impostato :converged a true
+    h[:converged] = (blk[:f].abs <= tol)
+    break if h[:converged]
+
+    # Calcoliamo il nuovo punto dove valutare la funzione secondo
+    # la equazione fornita nel testo dell'esercizio
+    h[:solution] = h[:solution] -
+       (blk[:f] * blk[:df])/(blk[:df]**2 - 0.5*blk[:f]*blk[:ddf])
+  end
+
+  # Ritorniamo la hash
+  return h
+end
+
+
+# Esempio:
+puts halley(10, 1e-4, 20) { |x|
+  {f: (3 * x / 2) ** 4 - 1,  df: 81 * (x ** 3) / 4, ddf: 243 * (x**2) / 4}
+}
+puts halley_ragni(10, 1e-4, 20) { |x|
+  {f: (3 * x / 2) ** 4 - 1,  df: 81 * (x ** 3) / 4, ddf: 243 * (x**2) / 4}
+}
+
+
