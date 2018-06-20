@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+# INSERISCI I TUOI DATI QUI
+#         |
+#         |
+#         V
+
+Nome      = 'Bartolomeo'
+Cognome   = 'Pestalozzi'
+Matricola = 1234
+
+
+=begin
+
+Scrivere la funzione `sconta` che prende in input:
+- 1 vettore inventario, 'i', contenente hash di oggetti in inventario
+  aventi la seguente struttura:
+  {:nome => String, :tipo => String, :prezzo => Float}
+
+- 1 hash, 's', che specifica per ogni tipo di prodotto uno sconto percentuale espresso come float in (0..1).
+  # tipo => sconto
+  {String => Float}
+      
+La funzione `sconta` deve applicare gli sconti e ritornare l'inventario aggiornato.
+
+
+Esempio: 
+i = [
+	{:nome => "Banana",   :tipo => "frutta",  :prezzo => 3.40},
+	{:nome => "Pere",     :tipo => "frutta",  :prezzo => 2.20},
+	{:nome => "Pollo",    :tipo => "carne",   :prezzo => 5.40},
+	{:nome => "Coniglio", :tipo => "carne",   :prezzo => 6.70},
+	{:nome => "Crauti",   :tipo => "verdura", :prezzo => 1.70},
+]
+
+s = {
+	"frutta"  => 0.15,
+	"verdura" => 0.20,
+}
+
+sconta(i, s) restituisce:
+[
+	{:nome=>"Banana",   :tipo=>"frutta",  :prezzo=>2.89},
+	{:nome=>"Pere",     :tipo=>"frutta",  :prezzo=>1.87},
+	{:nome=>"Pollo",    :tipo=>"carne",   :prezzo=>5.40},
+	{:nome=>"Coniglio", :tipo=>"carne",   :prezzo=>6.70},
+	{:nome=>"Crauti",   :tipo=>"verdura", :prezzo=>1.36},
+]
+
+
+=end
+
+################################################################################
+# RISOLVERE L'ESERCIZIO QUI
+################################################################################
+
+def sconta(i, s)
+	# TODO: add checks for dict consistency
+	
+	# update inventory
+	i.map do |e|
+		e[:prezzo] = (e[:prezzo] * (1-s[e[:tipo]])).round(2) if s[e[:tipo]]
+		e
+	end
+end
+
+################################################################################
+# NON MODIFICARE LE LINEE DI CODICE RIPORTATE QUI DI SEGUITO
+################################################################################
+Esercizio = 2
+load "./checker.rb" if __FILE__ == $0

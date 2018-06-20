@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+# INSERISCI I TUOI DATI QUI
+#         |
+#         |
+#         V
+
+Nome      = 'Bartolomeo'
+Cognome   = 'Pestalozzi'
+Matricola = 1234
+
+
+=begin
+
+Scrivere la funzione `terne_pitagoriche` che prende 1 vettore in ingresso 'v'
+e restituisce un vettore.
+Il vettore deve contenere, per ogni terna trovata, l'indice del primo elemento.
+
+Affinche' una terna (a, b, c) sia considerata valida, i tre numeri devo occupare
+posizioni conscutive nell array. 
+
+Ad esempio sia
+
+a = [ 10, 3, 4, 5, 7, 8, 15, 17]
+
+terne_pitagoriche(a) restituisce [ 1, 5 ]
+
+=end
+
+################################################################################
+# RISOLVERE L'ESERCIZIO QUI
+################################################################################
+
+def terne_pitagoriche(v)
+	# Checking preconditions
+	v.each do |v|
+		raise ArgumentError, "Array values must be Numeric" if not v.is_a? Numeric
+	end	
+
+	# Checking all "terne".
+	t = []
+	0.upto(v.length - 3) {|i| t << i if (v[i] ** 2 + v[i+1] ** 2 == v[i+2]**2)}
+	return t
+end
+
+################################################################################
+# NON MODIFICARE LE LINEE DI CODICE RIPORTATE QUI DI SEGUITO
+################################################################################
+Esercizio = 1
+load "./checker.rb" if __FILE__ == $0
