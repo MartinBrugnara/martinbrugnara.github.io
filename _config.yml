@@ -1,0 +1,27 @@
+title: Martin Brugnara's personal web page
+email: martin.brugnara@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+    Martin Brugnara' personal page.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: MartinBrugnara
+github_username: MartinBrugnara
+
+# Build settings
+#markdown: kramdown
+#theme: minima
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#

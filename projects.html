@@ -1,113 +1,111 @@
-<!DOCTYPE>
-<html lang="en">
-    <head>
-        <title>Martin Brugnara's Page | Projects</title>
+---
+layout: default
+title: Projects
+---
+<article class="proj">
+    <header>
+        <h1>Academic Projects</h1>
+    </header>
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <section id="graph-benchmark">
+        <header>[2017-active] <strong>Graph Benchmark</strong> -- <a href="https://graphbenchmark.com" target="_blank">Project page</a> | <a href="https://github.com/kuzeko/graph-databases-testsuite"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (MIT license).</header>
+        <p>
+            The Graph Database (GDB) comparison is designed to provide comprehensively compare and better understand the existing graph database system solutions.
+            It has been developed in collaboration with <a href="https://velgias.github.io/" target="_blank">Prof. Y. Velgrakis</a> and <a href="https://disi.unitn.it/~lissandrini/" target="_blank">M. Lissandrini</a>.
+            The <i>Graph Benchmark</i> made its first appearance in our "Beyond Macrobenchmarks: Microbenchmark-based Graph Database Evaluation" <a href="/research.html#graph-benchmark-vldb19">VLDB19 research paper</a>.
+        </p>
+    </section>
 
-        <meta name="author" content="Martin Brugnara">
-        <!-- TODO: rewrite SE entry -->
-        <meta name="description" content="Martin Brugnara' personal page.">
-        <meta name="keywords" content="Martin Brugnara, dbTrento, University of Trento, data exploration, data profiling, DMBCAU">
-        <meta name="robots" content="index,follow">
+    <section id="clic">
+        <header>[2018] <strong>CLIC: What if?</strong> -- <i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i> (GPL v3).</header>
+            <!--
+                Waiting for 'go' on source code public release.
+                <a href="https://github.com/MartinBrugnara/CLIC" target="_blank"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (GPL v3).</header>
+            -->
+        <p>"CLIC: What if?" is a framework for the simulation for calls for tenders under the Italian regulations.
+            It has been developed in collaboration with the faculty of law at the Univesity of Trento,
+            within the project "<a href="https://webmagazine.unitn.it/news/ateneo/6889/con-clic-pi-trasparenza-e-valorizzazione-della-qualit-negli-appalti-pubblici" target="_blank">CLIC</a>: Trasparenza e modernizzazione delle procedure di aggiudicazione degli appalti pubblici".</p>
+    </section>
 
-        <link rel="icon" href="static/img/favicon.ico">
-        <link rel="stylesheet" href="static/css/font-awesome.min.css">
-        <link rel="stylesheet" href="static/css/main.css">
+    <section id="archetipum">
+        <header>[2017] <strong>Archetypum</strong> -- <a href="https://rawgit.com/MartinBrugnara/archetypum/master/demo/index_1496998388.html">Demo</a> | <a href="https://github.com/MartinBrugnara/archetypum/blob/master/README.md"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (MIT license).</header>
+        <p>
+            Archetypum is a <a href="https://en.wikipedia.org/wiki/Tomasulo_algorithm" target="_blank">Tomasulo's protocol</a> visualizer.
+            With it, users can design a <i>simple</i> processor and then simulate the execution of an arbitrary assembly program on it.
+        </p>
+        <p>
+            The processor comes configured with reasonable settings for a live demo/teaching session.
+            The user may then decide anytime to modify any of its capabilities like
+            registers, functional units, memory latency, cache, and branch predictor.
+        </p>
+        <p>
+            Once completed the customization process, the user shall provide a program to execute.
+            They may decide between using one of the examples and write a program in our ARM-like assembly.
+            The language supports all the essential instructions, which are also explained in the documentation.
+        </p>
+        <p>
+            Finally, it comes the time for the simulation.
+            The execution is governed by a clock, with adjustable speed, that the user can stop anytime.
+            Once stopped, the user may decide to make it resume or advance cycle by cycle.<br>
 
-    </head>
-    <body>
+            The simulation view provides, besides the clock controls,
+            a series of widgets (tables) that display the
+            status of each component of the processor.
+        </p>
+        <p>Archetypum has been developed in collaboration with <a href="https://www.linkedin.com/in/gianluca-bortoli-a572a998/" target="_blank">G. Bortoli</a> as a project for the Advanced Architecture course by <a href="http://disi.unitn.it/~roby/" target="_balnk">Prof. R.Passerone</a>.</p>
+    </section>
 
-        <nav>
+    <section id="rafscope">
+        <header>[2016] <strong>RaftScope</strong> -- <a href="https://illedran.me/raftscope">Demo</a> | <a href="https://github.com/Illedran/raftscope"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (MIT license).</header>
+        <p>RaftScope is the <a href="https://en.wikipedia.org/wiki/Raft_(computer_science)" target="_blank">Raft consensus protocol</a> visualizer originally developed by Ongaro to present his work.</p>
+        <p>
+            <a href="https://www.linkedin.com/in/andrea-nardelli/" target="_blank">A. Nardelli</a>, <a href="https://www.linkedin.com/in/fatbardha-hoxha-276553125/" target="_blank">F.Hoxa</a> and I added support for the missing features, like cluster membership configuration changes, and we updated it to the latest revision.
+            This work was conducted as a project for the Distributed Algorithm course by <a href="http://cricca.disi.unitn.it/montresor/" target="_blank">Prof A. Montresor</a>.
+        </p>
+    </section>
+
+    <section id="DIP">
+        <header>[2015] <strong>DIP</strong> -- <a href="assets/pdf/MartinBrugnaraDIP_BscThesisSlides.pdf"><i class="icon-file-pdf-o" aria-hidden="true"><span class="sr">slides</span></i></a>.</header>
+        <p>
+            DIP is the result of the Dataset Integration Project: a dataset and process management system for big data.
+            It is a novel software address the needs only partially fulfilled by the (at the time) existing solutions (<i>e.g.</i>, CKAN, Oozie).
+            This project will be released as a module of a framework that is being developed by the dbTrento group.</p>
+        </p>
+    </section>
+
+</article>
+
+<article class="proj">
+    <header>
+        <h1>Personal Projects</h1>
+    </header>
+    <section id="sysop">
+        <header>[2011-Present] <strong>Sysop</strong> -- sys amdin, net admin.</header>
+        <p>
+            System administrator and Network administrator at Camping Punta Indiani.
             <ul>
-                <li>Martin Brugnara</li>
-                <li><a href="index.html">/about</a></li>
-                <li><a href="projects.html">/projects</a></li>
-                <li><a href="research.html">/research</a></li>
-                <li><a href="teaching.html">/teaching</a></li>
+                <li>Network: ~100 GBe ports, ~15 AP (whole structure coverage - mainly <a href="https://www.ubnt.com" target="_blank">Ubiquiti</a>), 4 fiber backbones, 8 VLANs, 1 VPN, 2 ISPs.</li>
+                <li>Machines: 1 hypervisor (debian), ~5 workstation (MacOS - Ubuntu), 1 NAS (24TiB, debian + ZFS).</li>
+                <li>VMs &amp; Cloud:  1 pfSense, 4 debian.</li>
+                <li>Other: NVR and Security cam (analog and ip).</li>
             </ul>
-        </nav>
+        </p>
+    </section>
 
-        <article class="proj">
-            <header>
-                <h1>Academic Projects</h1>
-            </header>
-            <section id="archetipum">
-                <header>[2017] <strong>Archetypum</strong> -- <a href="https://github.com/MartinBrugnara/archetypum/blob/master/README.md">Demo</a> | <a href="https://github.com/MartinBrugnara/archetypum/blob/master/README.md"><i class="fa fa-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (MIT license).</header>
-                        <p>Archetypum is a <a href="https://en.wikipedia.org/wiki/Tomasulo_algorithm" target="_blank">Tomasulo's protocol</a> visualizer.</p>
-                <!-- TODO : short desc -->
-                <p>It as been developed in collaboration with <a href="https://www.linkedin.com/in/gianluca-bortoli-a572a998/" target="_blank">G.Bortoli</a> as project for the Advanced Architecture course by <a href="http://disi.unitn.it/~roby/" target="_balnk">Prof. R.Passerone</a>.</p>
-            </section>
+    <section id="DMBCAU">
+        <header>[2011-Present] <strong>DMBCAU</strong> -- Private beta</header>
+        <p>
+            The Django Martin Brugnara Camping Administration Utility (DMBCAU)
+            is a fully featured framework capable of providing support on every aspect
+            of the campings administration.<br>
+            It covers basic services like online reservation, confirmation, and billing procedures.
+            Obviously, it also generates all documents reports required by law (C59, guests report for police, invoices, ...).
+            Furthermore, it provides advanced features like resource (pitches, mobile homes, etc..) allocation optimization and marketing insights.
+        </p>
+    </section>
 
-            <section id="rafscope">
-                <header>[2016] <strong>RaftScope</strong> -- <a href="https://github.com/Illedran/raftscope">Demo</a> | <a href="https://github.com/Illedran/raftscope"><i class="fa fa-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (MIT license).</header>
-                <p>RaftScope is the <a href="https://en.wikipedia.org/wiki/Raft_(computer_science)" target="_blank">Raft consensus protocol</a> visualizer originally developed by Ongaro to present his work.</p>
-                <p>
-                    <a href="https://www.linkedin.com/in/andrea-nardelli/" target="_blank">A.Nardelli</a>, <a href="https://www.linkedin.com/in/fatbardha-hoxha-276553125/" target="_blank">F.Hoxa</a> and I added support for the missing features, like cluster membership configuration changes, and we updated it to the latest revision.
-                    This work was conduced as project for the Distributed Algorithm course by Prof A. Montresor.
-                </p>
-            </section>
-
-            <section id="DIP">
-                <header>[2015] <strong>DIP</strong> -- <a href="static/pdf/MartinBrugnaraDIP_BscThesisSlides.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"><span class="sr">slides</span></i></a>.</header>
-                <p>
-                    DIP is the result of the Dataset Integration Project: a dataset and process management system for big data.
-                    It is a novel software address the needs only partially fulfilled by the (at the time) existing solutions (<i>e.g.</i>, CKAN, Oozie).
-                    This project has not been released yet, but it will be released as module fore a future one.</p>
-                </p>
-            </section>
-
-        </article>
-
-        <article class="proj">
-            <header>
-                <h1>Personal Projects</h1>
-            </header>
-            <section id="sysop">
-                <header>[2011-Present] <strong>Sysop</strong> -- sys amdin, net admin.</header>
-                <p>
-                    System administrator and Network administrator at Camping Punta Indiani.
-                    <ul>
-                        <li>Network: ~100 GBe ports, ~15 AP (whole structure coverage), 4 fiber backbones, 8 VLANs, 1 VPN, 2 ISPs.</li>
-                        <li>Machines: 1 hypervisor (debian), ~ 5 workstation (MacOS - Ubuntu).</li>
-                        <li>VMs &amp; Cloud: 1 pfSense, 4 debian.</li>
-                        <li>Other: NVR and Security cam (analog and ip).</li>
-                    </ul>
-                </p>
-            </section>
-
-            <section id="DMBCAU">
-                <header>[2011-Present] <strong>DMBCAU</strong> -- Private beta</header>
-                <p>
-                    The Django Martin Brugnara Camping Administration Utility (DMBCAU)
-                    is a fully featured framework capable of providing support on every aspect
-                    of the campings administration.<br>
-                    It covers basic services like online reservation, confirmation, and billing procedures.
-                    <!-- TODO: legal reason is the wrong word -->
-                    Obviously, it also generates all documents required for legal reasons (C59, guests report for police, and recipes).
-                    Furthermore, it provides advanced features like resource (pitches, mobile-homes, etc..) allocation optimization and marketing insights.
-                </p>
-            </section>
-
-            <section id="puntaindiani.it">
-                <header>[2010-Present] <strong>puntaindiani.it</strong> --
-                    <a href="http://www.puntaindiani.it"><i class="fa fa-globe" aria-hidden="true"><span class="sr">website</span></i></a> |
-                    <a href="https://github.com/CampingPuntaIndiani/www.puntaindiani.it"><i class="fa fa-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> .
-                <p>Camping Punta Indiani snc primary website.</p>
-            </section>
-        </article>
-
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-43834427-1', 'auto');
-        ga('send', 'pageview');
-        </script>
-
-    </body>
-</html>
+    <section id="puntaindiani.it">
+        <header>[2010-2018] <strong>puntaindiani.it</strong> -- <a href="https://github.com/CampingPuntaIndiani/www.puntaindiani.it"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a>.
+        <p>Camping Punta Indiani snc primary website.</p>
+    </section>
+</article>

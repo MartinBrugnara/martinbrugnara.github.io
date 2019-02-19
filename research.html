@@ -1,89 +1,75 @@
-<!DOCTYPE>
-<html lang="en">
-    <head>
-        <title>Martin Brugnara's Page | Research</title>
+---
+layout: default
+title: Research
+---
+<article>
+    <section>
+        <header>
+            <h1>Publications</h1>
+        </header>
+        <h2>Conferences</h2>
+        <ol class="pub" reversed>
+            <!-- TODO: protomet-etn.eu -->
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <li id="graph-benchmark-vldb19">
+                <span class="ptitle">Beyond Macrobenchmarks: Microbenchmark-based Graph Database Evaluation.</span>
+                <span class="author">Matteo Lissandrini, Martin Brugnara, and Yannis Velegrakis.</span>
+                <span class="meta">Proceedings of the Conference on Very Large Databases (PVLDB), 2018.
+                    <a href="assets/pdf/lissandrini_BV_PVLDB18.pdf"><i class="icon-file-pdf-o" aria-hidden="true"><span class="sr">PDF</span></i></a>
+                    <br><a href="https://graphbenchmark.com" target="_blank">Datasets &amp; Code</a>
+                </span>
+            </li>
 
-        <meta name="author" content="Martin Brugnara">
-        <!-- TODO: rewrite SE entry -->
-        <meta name="description" content="Martin Brugnara' personal page.">
-        <meta name="keywords" content="Martin Brugnara, dbTrento, University of Trento, data exploration, data profiling, DMBCAU">
-        <meta name="robots" content="index,follow">
+            <li>
+                <span class="ptitle">Distributed k-core decomposition and maintenance in large dynamic graphs.</span>
+                <span class="author">Sabeur Aridhi, Martin Brugnara, Yannis Velegrakis, and Alberto Montresor.</span>
+                <span class="meta">
+                    In Proc. of the 10th ACM International Conference on Distributed and Event-Based Systems, DEBS’16. ACM, Irvine, CA, June 2016.
+                    <a href="assets/pdf/aridhi_BMV_DEBS2016.pdf"><i class="icon-file-pdf-o" aria-hidden="true"><span class="sr">PDF</span></i></a>
+                    <br><a href="https://db.disi.unitn.eu/pages/dkcore/" target="_blank">Datasets &amp; Code</a>
+                </span>
+            </li>
+        </ol>
+    </section>
 
-        <link rel="icon" href="static/img/favicon.ico">
-        <link rel="stylesheet" href="static/css/font-awesome.min.css">
-        <link rel="stylesheet" href="static/css/main.css">
+    <section>
+        <h2>Technical Reports</h2>
+        <ol class="pub" reversed>
+            <li>
+                <span class="ptitle">An Evaluation Methodology and Experimental Comparison of Graph Databases.</span>
+                <span class="author">Matteo Lissandrini, Martin Brugnara, Yannis Velegrakis.</span>
+                <span class="meta">DISI Technical Reports - DISI-17-006 — April 30th, 2017.
+                    <a href="assets/pdf/lissandrini_BV_DISI-tech17.pdf"><i class="icon-file-pdf-o" aria-hidden="true"><span class="sr">PDF</span></i></a></span>
+            </li>
+        </ol>
+    </section>
 
-    </head>
-    <body>
+    <section>
+        <h2>Theses</h2>
+        <ol class="pub" reversed>
+            <li>
+                <span class="ptitle">Automatic analytics and understanding of big datasets for Smart Cities.</span>
+                <span class="author">Advisor: Yannis Velegrakis.</span>
+                <span class="meta">MSc thesis University of Trento, Italy, October 2017.</span>
+            <li>
+                <span class="ptitle">DIP: a dataset and process management system for big data.</span>
+                <span class="author">Advisor: Yannis Velegrakis.</span>
+                <span class="meta">BSc thesis University of Trento, Italy, March 2015.</span>
+            </li>
+        </ol>
+    </section>
+</article>
 
-        <nav>
-            <ul>
-                <li>Martin Brugnara</li>
-                <li><a href="index.html">/about</a></li>
-                <li><a href="projects.html">/projects</a></li>
-                <li><a href="research.html">/research</a></li>
-                <li><a href="teaching.html">/teaching</a></li>
-            </ul>
-        </nav>
+<article>
+    <section>
+        <header>
+            <h1>Grants</h2>
+        <header>
 
-        <article>
-            <header>
-                <h1>Publications</h1>
-            </header>
-            <h2>Conferences</h2>
-            <ol class="pub" reversed>
-                <li>
-                    <span class="ptitle">Distributed k-core decomposition and maintenance in large dynamic graphs.</span>
-                    <span class="author">Sabeur Aridhi, Martin Brugnara, Yannis Velegrakis, and Alberto Montresor.</span>
-                    <span class="meta">
-                        In Proc. of the 10th ACM International Conference on Distributed and Event- Based Systems, DEBS’16. ACM, Irvine, CA, June 2016.
-                        <a href="static/pdf/aridhi_BMV_DEBS2016.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"><span class="sr">PDF</span></i></a>
-                    </span>
-                </li>
-            </ol>
-
-            <h2>Technical Reports</h2>
-            <ol class="pub" reversed>
-            </ol>
-
-            <h2>Theses</h2>
-            <ol class="pub" reversed>
-                <li>
-                   <span class="ptitle">Automatic analytics and understanding of big datasets for Smart Cities.</span>
-                   <span class="author">Martin Brugnara, Yannis Velegrakis.</span>
-                   <span class="meta">MSc thesis University of Trento, Italy, October 2017.</span>
-                <li>
-                   <span class="ptitle">DIP: a dataset and process management system for big data.</span>
-                   <span class="author">Martin Brugnara, Yannis Velegrakis.</span>
-                   <span class="meta">BSc thesis University of Trento, Italy, March 2015.</span>
-                </li>
-            </ol>
-        </article>
-
-        <article>
-            <header>
-                <h1>Grants</h1>
-            </header>
-
-            <ul class="pub">
-                <li>2016 - IEEE Smart Cities Initiative grant (IEEE).</li>
-                <li>2015 - Research Grant for Recent graduates (UniTN).</li>
-            </ul>
-        </article>
-
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-43834427-1', 'auto');
-        ga('send', 'pageview');
-        </script>
-
-    </body>
-</html>
+        <ul class="pub">
+            <li>2018 - Merit Grant (Cassa Rurale Lavis - Mezzocorona - Valle di Cembra).</li>
+            <li>2016 - IEEE Smart Cities Initiative grant (IEEE).</li>
+            <li>2015 - Research Grant for Recent graduates (UniTN).</li>
+        </ul>
+    </section>
+</article>
