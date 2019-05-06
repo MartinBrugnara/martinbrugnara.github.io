@@ -83,12 +83,27 @@ title: Projects
         <header>[2011-Present] <strong>Sysop</strong> -- sys amdin, net admin.</header>
         <p>
             System administrator and Network administrator at Camping Punta Indiani.
-            <ul>
-                <li>Network: ~100 GBe ports, ~15 AP (whole structure coverage - mainly <a href="https://www.ubnt.com" target="_blank">Ubiquiti</a>), 4 fiber backbones, 8 VLANs, 1 VPN, 2 ISPs.</li>
-                <li>Machines: 1 hypervisor (debian), ~5 workstation (MacOS - Ubuntu), 1 NAS (24TiB, debian + ZFS).</li>
-                <li>VMs &amp; Cloud:  1 pfSense, 4 debian.</li>
-                <li>Other: NVR and Security cam (analog and ip).</li>
-            </ul>
+        </p>
+
+        <p>
+            <em>Network.</em> The site connects to the internet via two different ISP, to increase bandwidth (load balancing) and availability (failover).
+            Staff and guests can connect to the wifi network that <a href="https://community.ubnt.com/t5/UniFi-Wireless/Request-for-advice-New-outdoor-installation-in-a-Campsite/m-p/1890169/highlight/true#M221835">covers the whole campsite</a> or via cable (from selected locations).
+            The wifi coverage is provided via fiber backbones and <a href="https://unifi-mesh.ui.com/" target="_blank">Unifi Mesh APs</a>.
+            The traffic generated from different physical locations, like the office, is tagged with dedicated VLAN tags, the same applies to all SSID.
+            A <a href="https://www.pfsense.org/">PfSense</a> VM is then responsible for the routing and for enforcing QoS rules.
+            The router act also as a firewall and provides all essential network services like DHCP, DNS caching, and NTP.
+        </p>
+
+        <p>
+            <em>Machines.</em> A Debian hypervisor runs, via KVM, a bunch of VMs that provide various services like the Unifi Controller, the NFS storage server, and the centralized password manager. There are also different workstations all running either Linux Mint or MacOS.
+        </p>
+
+        <p>
+            <em>Multi-site Backups.</em> Local backups are managed by a VM, while remote backups rely on a NAS (24TiB, Debian + ZFS).
+        </p>
+
+        <p>
+            <em>Video Surveillance.</em> Mix of IP and analog equipement. NVR (Unifi Video) and a DVR.
         </p>
     </section>
 

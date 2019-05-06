@@ -49,3 +49,14 @@
 .icon-github:before {
   content: "\e903";
 }
+
+
+/* Added icons */
+.icon-orcid {
+  svg {height: 1em;}
+  vertical-align: top;
+
+  /* Original colors accordingly to: https://orcid.figshare.com/articles/ORCID_iD_icon_graphics/5008697 */
+  /*.st0{fill:#A6CE39;}*/
+  .st1{fill:#FFFFFF;}
+}
