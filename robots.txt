@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /rp
-Sitemap: https://martinbrugnara.it/sitemap.xml
