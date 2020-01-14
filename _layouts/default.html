@@ -1,4 +1,4 @@
-<!doctype html>
+g!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -21,8 +21,16 @@
         {% include navigation.html %}
         {{ content }}
 
-        <script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101195293);</script>
-        <script async src="//static.getclicky.com/js"></script>
-        <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101195293ns.gif" /></p></noscript>
+        <script>
+            (function() {
+                var script = document.createElement('script');
+                window.counter = 'https://martinbrugnara_it.goatcounter.com/count'
+                script.async = 1;
+                script.src = '//gc.zgo.at/count.js';
+
+                var ins = document.getElementsByTagName('script')[0];
+                ins.parentNode.insertBefore(script, ins)
+            })();
+        </script>
     </body>
 </html>
