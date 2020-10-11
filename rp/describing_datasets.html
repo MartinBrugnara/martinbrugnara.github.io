@@ -1,0 +1,40 @@
+---
+layout: default
+title: "On describing the contents of a dataset."
+robots: "noindex"
+---
+<h1>On describing the contents of a dataset.</h1>
+
+<!-- Abstract -->
+<p>
+Companies and organizations collect huge amounts of data from almost every aspect of their activities, often without knowing in advance how to actually exploit them. A significant first step before the collected datasets can be leveraged by data analytics is to understand the information they contain. This task is known as data exploration. In this work, we study the problem of generating informative descriptions of the data contained in a dataset. We aim at descriptions that are complete, i.e., cover as much of the data as possible, and avoid redundancy, i.e., repeating the same kind of information multiple times. We present different algorithms for achieving this and study their properties through an extensive set of experimental evaluations.
+</p>
+
+
+<h3>Source code &amp; Datasets</h3>
+<p>
+    <strong>Description Miner</strong><br>
+    <a href="https://disi.unitn.it/~brugnara/ddm/code.tar.gz">Source code</a> (MD5: 89209c14eda6bcf696db1171ca042511).<br>
+    Prototype that implements the three proposed solutions:
+    <em>Naiive</em>, <em>Vertical</em>, and <em>Adaptive</em>.
+<p>
+
+<p>
+    <strong>Datasets</strong><br>
+    <a href="https://disi.unitn.it/~brugnara/ddm/datasets.tar.gz">Archive</a> (MD5: 7efbff244e74225f04626098c4a1764f).<br>
+    Archive containing the datasets used for testing the proposed solutions.<br>
+    The datasets are divided in three folders:
+    <ul>
+        <li><strong>[R]</strong> containing real-world data.</li>
+        <li><strong>[V]</strong> containing synthetic data of high variety (heterogeneity);
+            used to study the behaviour of domain pruning and of the three algorithms.</li>
+        <li><strong>[S]</strong> also containing synthetic data but generated to evaluate the scalability of the techniques.</li>
+    </ul>
+</p>
+
+<p>
+    <strong>Data Generator</strong><br>
+    <a href="https://disi.unitn.it/~brugnara/ddm/generator.tar.gz">Source code</a> (MD5: 56e94ca888232c5199dbc2b6a76b83bc).<br>
+    A data-generator we developed, that provides fine control over both the structure of the dataset and over the distribution of the patterns in its data.<br>
+    This generator was used to produce the data from [V] and [S].
+</p>
