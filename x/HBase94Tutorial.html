@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+
+    <title>Installing HBase 0.94.x on a Multi-node cluster with Ubuntu 14.04</title>
+
+    <meta name="author" content="Martin Brugnara <martin.brugnara@gmail.com">
+
+    <!-- Google -->
+    <meta name="description" content="HBase, tutorial, hadoop">
+
+    <!-- IE compatibility shit -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Mobile support -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="stylesheet" href="/assets/css/hbase/main-16px.css">
+    <link rel="stylesheet" href="/assets/css/hbase/desert.css">
+    <link rel="stylesheet" href="/assets/css/hbase/main.css">
+</head>
+<body>
+  <header>
+    <h2>Installing HBase 0.94.x</h2><h3>on a Multi-node cluster with Ubuntu 14.04</h3>
+    <h5>Martin Brugnara <a href="mailto:martin.brugnara@gmail.com">martin.brugnara@gmail.com</a><br>
+      Sabeur Aridhi <a href="mailto:sabeur.aridhi@gmail.com">sabeur.aridhi@gmail.com</a></h5>
+  </header>
+
+  <section id="introduction">
+    <h4>Introduction</h4>
+    <p>This tutorial is a sequel of of Matteo Lissandrini's <a href="http://disi.unitn.it/~lissandrini/notes/installing-hadoop-on-ubuntu-14.html">"Installing HDFS and Hadoop 2.X on a Multi-node cluster with Ubuntu 14.0</a>.</p>
+
+    <p>That guide can also be used to install Hadoop 1.x (with minor if none modification);
+    in this work we will assume that you have followed that tutorial and have installed Hadoop 1.x and HDFS.</p>
+
+    <p>Even thought HBase 0.94.x can run against both Hadoop 1.x and 2.x versions (see <a href="https://hbase.apache.org/0.94/book.html#d1865e478">HBase 0.94 book</a>)
+    we highly recommend to use Hadoop 1.x for HBase 0.x and Hadoop 2.x for HBase 1.x and 2.x.</p>
+
+    <p>We wish also to inform you that also this tutorial can be applied to HBase 1.x and 2.x (with minor if none modification).</p>
+  </section>
+
+  <section id="installing">
+    <h4>Installing</h4>
+
+    <p>The following steps will be needed only once. Download HBase 0.94.X stable, to do so navigate in the <a href="https://www.apache.org/mirrors/">List of Mirrors</a> select one and decide which version to download. For the sake of simplicity from now on we will assume tho have chosen version <code>0.94.27</code>.<br>
+    For example <code>wget</code> can be used:</p>
+
+    <pre class="prettyprint linenums">
+# from eu
+wget https://www.eu.apache.org/dist/hbase/hbase-0.94.27/hbase-0.94.27.tar.gz
+# from us
+wget https://www.us.apache.org/dist/hbase/hbase-0.94.27/hbase-0.94.27.tar.gz</pre>
+
+    <p>Then extract the <code>tar</code> to the final installation directory, fix also permission and create a version agnostic symlink.<br>
+    In this tutorial we will use the standard <code>/usr/local/</code> as installation directory but obviously you are free to chose the one you prefer.</p>
+
+    <pre class="prettyprint linenums">
+# extract &amp; copy
+sudo tar -zxf hbase-0.94.27.tar.gz -C /usr/local/
+# fix permission
+sudo chown -R hduser:hadoop /usr/local/hbase-hbase-0.94.27/
+# create symlink
+sudo ln -s /usr/local/hbase-0.94.27/ /usr/local/hbase</pre>
+
+  </section>
+
+  <section id="configuration">
+    <h4>Configuration</h4>
+    <p>Now write the main HBase configuration file.<br>
+    In the template that follow, you will find few variables that you have to substitute with the corresponding one from you setup.</p>
+
+    <pre class="prettyprint linenums">
+$HADOOP_MASTER = IP address of the Hadoop master node (Namenode)
+$HBASE_MASTER = IP adress of the HBase master node (HMaster)
+$ZOOKEEPER_QUORUM = Comma separeted list of IP that belong to the zookeeper quorum.
+
+# FQDN can be used instead of IP
+    </pre>
+
+    <p>This template was created following the official HBase 0.94 <a href="https://hbase.apache.org/0.94/book.html#fully_dist">book</a> and after few web articles and posts...
+    More configuration options are available, an exaustive list can be found on the official <a href="https://hbase.apache.org/0.94/book.html#config.files">book</a>.</p>
+
+    <pre id="hbase-site.xml" class="prettyprint linenums lang-html">
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.rootdir&lt;/name&gt;
+        &lt;value&gt;hdfs://$HADOOP_MASTER:8020/hbase&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
+        &lt;value&gt;$ZOOKEEPER_QUORUM&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;
+        &lt;value&gt;/usr/local/zookeeper&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.master&lt;/name&gt;
+        &lt;value&gt;$HBASE_MASTER:60000&lt;/value&gt;
+        &lt;description&gt;The host and port that the HBase master runs at.&lt;/description&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.master.port&lt;/name&gt;
+        &lt;value&gt;16000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.master.info.port&lt;/name&gt;
+        &lt;value&gt;16010&lt;/value&gt;
+        &lt;description&gt;web ui port&lt;/description&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.regionserver.port&lt;/name&gt;
+        &lt;value&gt;16099&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.regionserver.info.port&lt;/name&gt;
+        &lt;value&gt;16030&lt;/value&gt;
+    &lt;/property&gt;
+
+&lt;!-- http://hbase-perf-optimization.blogspot.it/2013/03/hbase-configuration-optimization.html --&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.regionserver.lease.period&lt;/name&gt;
+        &lt;value&gt;1200000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.rpc.timeout&lt;/name&gt;
+        &lt;value&gt;1200000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;zookeeper.session.timeout&lt;/name&gt;
+        &lt;value&gt;20000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.regionserver.handler.count&lt;/name&gt;
+        &lt;value&gt;50&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.zookeeper.property.maxClientCnxns&lt;/name&gt;
+        &lt;value&gt;1000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.client.scanner.caching&lt;/name&gt;
+        &lt;value&gt;100&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.hregion.max.filesize&lt;/name&gt;
+        &lt;value&gt;10737418240&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.hregion.majorcompaction&lt;/name&gt;
+        &lt;value&gt;0&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.hregion.memstore.flush.size&lt;/name&gt;
+        &lt;value&gt;134217728&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.hregion.memstore.block.multiplier&lt;/name&gt;
+        &lt;value&gt;4&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hbase.hstore.blockingStoreFiles&lt;/name&gt;
+        &lt;value&gt;30&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;</pre>
+
+    <p>One last step: tell HBase which Java installation has to be used.
+    To do that modify the configuration file <code>conf/hbase-env.sh</code> to make the row specifying the <code>JAVA_HOME</code></p>
+
+    <pre class="prettyprint linenums">
+# to look like that
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+
+# one line sed command:
+sed -i.bak 's@.*export JAVA_HOME=.*@export JAVA_HOME=\$(readlink -f /usr/bin/java | sed "s:bin/java::")@g' $HADOOP_INSTALL/etc/hadoop/hadoop-env.sh</pre>
+
+    <p><strong>Bonus</strong>: in order to use HBase coprocessor framework the coprocessor classes have to be loaded into HBase;
+    this could be done either via shell or via configuration file.
+    Going for the second option, edit also <code>HBASE_CLASSPATH</code> to include the compiled jar.</p>
+
+    <pre class="prettyprint linenums">
+# example
+export HBASE_CLASSPATH=/srv/myapp/MyCoprocessors.jar</pre>
+  </section>
+
+  <section id="nodes-setup">
+    <h4>Nodes Setup</h4>
+    <p>Finally configure and initialize the other cluster nodes.
+    List the machines that will act as region server in <code>conf/regionservers</code>,
+    one address per line line.</p>
+
+    <p>If needed update <code>/etc/hosts</code> according to Hadoop tutorial <a href="https://disi.unitn.it/~lissandrini/notes/installing-hadoop-on-ubuntu-14.html#configure-hostnames">hints</a>.<br>
+    <p>Once done, propagate the setup throw the cluster:</p>
+
+    <pre class="prettyprint linenums">
+ #!/bin/bash
+
+ # Build configured HBase tar.
+ mkdir -p /tmp/distr/
+ tar -czf /tmp/distr/hbase.tgz /usr/local/hbase-0.94.27
+
+ # Distribute to each region node
+ while IFS='' read -r node_ip; do
+     scp /etc/hosts hduser@$node_ip:~/
+     scp ~/.profile ~/.vimrc hduser@$node_ip:~/
+
+    scp hbase.tgz hduser@$node_ip:~/
+
+    ssh -o StrictHostKeyChecking=no -tt hduser@$node_ip &lt;&lt;EOF
+ sudo mv $HOME/hosts /etc/
+
+ # Install &amp; link &amp; fix permission
+ sudo tar -zxf $HOME/hbase.tgz -C /
+ sudo ln -s /usr/local/hbase-0.94.27 /usr/local/hbase
+ sudo chown -R hduser:hadoop /usr/local/hbase*
+
+ # Create zookeeper directory (even if not needed)
+ sudo mkdir -p /usr/local/zookeeper
+ # Fix permission
+ sudo chown -R hduser:hadoop /usr/local/zookeeper
+
+ # Raise the limit for max opened files (DB srv)
+ sudo sysctl -w fs.file-max=100000
+
+ # Required due to -tt option
+ exit
+ EOF
+ done &lt; /usr/local/hbase/conf/regionservers</pre>
+  </section>
+
+  <section id="start">
+    <h4>Start</h4>
+
+    <p>That's the end of the journey: enjoy your new HBase cluster!</p>
+
+    <p>Start it running <code>start-hbase.sh</code></p>
+  </section>
+
+  <footer>
+    *Now you are allowed to wake up from this nightmare.
+  </footer>
+
+  <script type="text/javascript" src="/assets/js/google-code-prettify/prettify.js"></script>
+  <script>prettyPrint();</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="English">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="Author" content="">
+  <meta name="keywords" content="distributed,k-core,Hadoop,HBase,big data">
+  <title>Distributed k-core Decomposition and Maintenance in Large Dynamic Graphs</title>
+  <link href="/assets/css/dkcore.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div class="body_x">
+    <ul class="back_menu">
+      <!-- entete -->
+      <li class="back_m" style="width: 1080px; margin-left: 10px; margin-right: 10px;">
+        <div class="cadre" style="border: medium none ; float: left; width: 1040px; margin-left: 0px;background-color:transparent;">
+          <ul style=" -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; float: left; width: 1040px; margin-top: 0px; z-index: 50; margin-left:0px; padding-left: 10px; padding-bottom: 10px;">
+            <li style="float: left; width: 1040px; text-align: left; font-size: 30px; z-index: 50; position: relative; padding-top: 5px; margin-top: 20px;text-align:center;">
+              Distributed k-core Decomposition and Maintenance in Large Dynamic Graphs
+            </li>
+<li style="float: left; width: 1080px; text-align: left; font-size: 20px; margin-top: 5px; z-index: 50; position: relative; text-align:center;margin-bottom:10px;">
+              Sabeur Aridhi, Martin Brugnara, Alberto Montresor and Yannis Velegrakis
+            </li>
+<!--            <li style="float: left; width: 1080px; text-align: left; font-size: 16px; margin-top: 5px; z-index: 50; position: relative; text-align:center;margin-bottom:10px;">
+              Submitted to VLDB 2016
+            </li> -->
+
+          </ul>
+        </div>
+      </li>
+
+      <!-- menu  -->
+<!-- menu  -->
+<li class="back_m2" style='margin-top:35px;'>
+<div class="onglet_choix" style="margin:auto;border:none;font-size:12px;padding-top:3px;padding-bottom:7px;padding-left:20px;">
+<a href="#instances" style="font-family:Verdana;vertical-align:baseline;font-weight:bolder;text-decoration: none; color:#FFFFFF;" onmouseover="this.style.color='#ee0000'" onmouseout="this.style.color='#FFFFFF'">Datasets</a>
+ &nbsp; | &nbsp;
+<a href="#results" style="font-family:Verdana;vertical-align:baseline;font-weight:bolder;text-decoration: none;color:#FFFFFF;" onmouseover="this.style.color='#ee0000'" onmouseout="this.style.color='#FFFFFF'">Results</a>
+ &nbsp; | &nbsp;
+<a href="#downloads" style="font-family:Verdana;vertical-align:baseline;font-weight:bolder;text-decoration: none;color:#FFFFFF;" onmouseover="this.style.color='#ee0000'" onmouseout="this.style.color='#FFFFFF'">Downloads</a>
+
+
+        </div>
+      </li>
+    </ul>
+
+    <ul class="back1">
+      <li class="back2" style="width: 1080px; margin-left: 10px; margin-right: 10px; min-height: 700px;">
+        <br>
+        <div class="cadre" style="margin-top: 3px;">
+          <ul class="titre_u">
+              <li class="titre">
+                    <b><a name="datasets">Datasets: </a></b>
+              </li>
+          </ul>
+
+          <ul class="contenu_u">
+            <li class="contenu">
+
+              In order to evaluate and test the effectiveness of our approach we performed an extensive set of experiments on a number of different real and synthetic datasets.
+              <table class="mtable">
+                <title>Datasets</title>
+                <thead>
+                  <tr>
+                    <th>Dataset</th>
+                    <th>Type</th>
+                    <th>Number of nodes (<i>N</i>)</th>
+                    <th>Number of edges (<i>M</i>)</th>
+                    <th>Diameter</th>
+                    <th>Average clustering coefficient</th>
+                    <th>Max(k)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>DS1</td><td>Synthetic</td><td>10,000</td><td>70,622</td><td>4</td><td>0.3977</td><td>33</tr>
+                  <tr><td>DS2</td><td>Synthetic</td><td>20,000</td><td>144,741</td><td>4</td><td>0.3935</td><td>38</tr>
+                  <tr><td>DS3</td><td>Synthetic</td><td>50,000</td><td>365,883</td><td>4</td><td>0.3929</td><td>42</tr>
+                  <tr><td>DS4</td><td>Synthetic</td><td>100,000</td><td>734,416</td><td>4</td><td>0.3908</td><td>46</tr>
+                  <tr><td>ego-Facebook</td><td>Real</td><td>4,039</td><td>88,234</td><td>8</td><td>0.6055</td><td>115</tr>
+                  <tr><td>email-Enron</td><td>Real</td><td>36,692</td><td>183,831</td><td>11</td><td>0.4970</td><td>43</tr>
+                  <tr><td>roadNet-TX</td><td>Real</td><td>1,379,917</td><td>1,921,660</td><td>1,054</td><td>0.0470</td><td>3</tr>
+                  <tr><td>roadNet-CA</td><td>Real</td><td>1,965,206</td><td>2,766,607</td><td>849</td><td>0.0464</td><td>3</tr>
+                  <tr><td>com-LiveJournal</td><td>Real</td><td>3,997,962</td><td>34,681,189</td><td>17</td><td>0.2843</td><td>296</tr>
+                  <tr><td>soc-LiveJournal1</td><td>Real</td><td>4,847,571</td><td>68,993,773</td><td>16</td><td>0.2742</td><td>318</tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="7">
+                      <b>Real datasets</b> are provided by <a href="https://snap.stanford.edu/data/" target="_blank">Stanford University (SNAP)</a>.<br>
+                      <b>Synthetic datasets </b> were created using the <a href="http://current.cs.ucsb.edu/socialmodels/" target="_blank">graph data generator</a> proposed by [3] [4].
+                    </td>
+                  <tr>
+                </tfoot>
+              </table>
+
+             </li>
+          </ul>
+
+          <ul class="titre_u">
+            <li class="titre"><b><a name="results">Results: </a></b></li>
+          </ul>
+
+          <ul class="contenu_u">
+            <li class="contenu">
+              <br>
+
+              <ul class="rubrique_ul"><li>Experiments setup</li></ul>
+              <p align=justify>We have implemented our approach on top of the akka framework, a toolkit and runtime for building highly concurrent, distributed, resilient message-driven applications.
+              In order to evaluate the performance of our approach, we used 17 <i>m3.medium</i> instances on Amazon EC2.
+              Each <i>m3.medium</i> instance contained 1 virtual 64-bit CPU, 3.75 GB of main memory a 4 GB of local instance storage.</p>
+
+              <p align=justify>The HBase-based solution [1] was tested using 9 <i>m3.medium</i> instances on Amazon EC2: 1 acting as hmaster, namenode and zookeeper node, 8 as datanode and hregion.</p>
+
+              <p align=justify>The approach of Li et al.’s [2] was tested on a machine equipped with two Intel(R) Xeon(R) E5-2440 CPUs (2.40GHz) and 192 GB of memory.</p>
+
+              <br>
+              <ul class="rubrique_ul"><li>Speedup</li></ul>
+              <span>&nbsp;</span>
+
+              <table class="mtable">
+                <thead>
+                  <tr><th rowspan="2">Dataset</th><th rowspan="2">Number of cut edges</th><th colspan="4">Average Insertion Time (ms)</th><th colspan="4">Average Deletion Time (ms)</th></tr>
+                  <tr><th>inter-partition</th><th>intra-partition</th><th>HBase-based approach*</th><th>Sequential approach</th><th>inter-partition</th><th>intra-partition</th><th>HBase-based approach*</th><th>Sequential approach</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>DS1</td><td>61,803 (87.51%)</td><td>27</td><td>6</td><td>851</td><td>9</td><td>20</td><td>4</td><td>73</td><td>0,45</td></tr>
+                  <tr><td>DS2</td><td>126,720 (87.54%)</td><td>39</td><td>16</td><td>1994</td><td>8</td><td>27</td><td>9</td><td>166</td><td>0,69</td></tr>
+                  <tr><td>DS3</td><td>320,318 (87.54%)</td><td>42</td><td>10</td><td>8463</td><td>8</td><td>32</td><td>8</td><td>461</td><td>1,42</td></tr>
+                  <tr><td>DS4</td><td>643,189 (87.57%)</td><td>30</td><td>10</td><td>25279</td><td>13</td><td>25</td><td>8</td><td>1067</td><td>1,9</td></tr>
+                  <tr><td>ego-Facebook</td><td>77,253 (87.55%)</td><td>38</td><td>15</td><td>27</td><td>1</td><td>32</td><td>10</td><td>10</td><td>0,17</td></tr>
+                  <tr><td>email-Enron</td><td>161,055 (87.61%)</td><td>32</td><td>8</td><td>1082</td><td>1</td><td>28</td><td>6</td><td>11</td><td>0,29</td></tr>
+                  <tr><td>roadNet-TX</td><td>1,681,830 (87.51%)</td><td>28</td><td>9</td><td>192</td><td>9201</td><td>25</td><td>7</td><td>11</td><td>4605</td></tr>
+                  <tr><td>roadNet-CA</td><td>2,420,674 (87.49%)</td><td>30</td><td>12</td><td>136</td><td>12970</td><td>26</td><td>10</td><td>11</td><td>6680</td></tr>
+                  <tr><td>com-LiveJournal</td><td>30,348,426 (87.50%)</td><td>256</td><td>30</td><td>128</td><td>263</td><td>205</td><td>27</td><td>9</td><td>95</td></tr>
+                  <tr><td>soc-LiveJournal1</td><td>59,916,050 (86.84%)</td><td>579</td><td>27</td><td>35</td><td>377</td><td>499</td><td>25</td><td>8</td><td>201</td></tr>
+                </tbody>
+                <tfoot>
+                  <tr><td colspan="10">*The presented runtime values correspond to the execution of the HBase-based approach with a fixed k value (k=max(k)).</td></tr>
+                </tfoot>
+              </table>
+
+              <img width="100%" src="/assets/images/rp/dkcore/InsDelTiming.png" alt="Insertion\Deletion">
+            </li>
+          </ul>
+
+
+          <ul class="titre_u">
+            <li class="titre"><b><a name="downloads">Downloads: </a></b></li>
+          </ul>
+
+          <ul class="contenu_u">
+            <li class="contenu">
+              <p>In this section you can download our Java implementations of the solutions tested in our experimental study.</p>
+              <p>
+                The implementation of our proposed Akka-based approach is available <a class='http_link' href="/assets/code/rp/dkcore/DistributedKCore.tar">here</a> <br>
+                The implementation of the HBase-based [1] approach is available <a class='http_link' href="/assets/code/rp/dkcore/hbase_dkcore.tgz">here</a> <br>
+                The implementation of the sequential approach [2] is available <a class='http_link' href="/assets/code/rp/dkcore/ecdmn.tgz">here</a>.
+              </p>
+              <br>
+              <p>We also provide a tutorial for <a href="../x/HBase94Tutorial.html" target="_blank">HBase</a> installation and configuration.</p>
+            </li>
+          </ul>
+
+          <ul class="titre_u">
+            <li class="titre"><b><a name="downloads">References: </a></b></li>
+          </ul>
+          <ul class="contenu_u">
+            <li class="contenu">
+              [1] Aksu H., Canim M., Yuan-Chi Chang, Korpeoglu I., Ulusoy O. Distributed k-Core View Materialization and Maintenance for Large Dynamic Graphs. <i>Knowledge and Data Engineering, IEEE Transactions on</i> , vol.26, no.10, pp.2439-2452, Oct. 2014 <br>
+              [2] Rong-Hua Li and Jeffrey Xu Yu and Rui Mao. Efficient Core Maintenance in Large Dynamic Graphs. <i>IEEE Trans. Knowl. Data Eng</i>. 26(10):2453–2465, 2014. <br>
+              [3] Alessandra Sala, Lili Cao, Christo Wilson, Robert Zablit, Haitao Zheng, and Ben Y. Zhao. Measurement-calibrated Graph Models for Social Network Experiments. <i>Proceedings of The 19th World Wide Web Conference (WWW 2010)</i>. ACM, New York, NY, USA, 861-870.<br>
+              [4] Alessandra Sala, Xiaohan Zhao, Christo Wilson, Haitao Zheng, and Ben Y. Zhao. Sharing Graphs using Differentially Private Graph Models. In <i>Proceedings of The 11th ACM SIGCOMM Internet Measurement Conference (IMC 2011)</i>.  ACM, New York, NY, USA, 81-98.<br>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
