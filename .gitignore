@@ -8,3 +8,6 @@ martin.tgz
 **.git/
 .sass-cache/
 _site/
+
+vendor/
+.bundle/
