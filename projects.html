@@ -17,11 +17,8 @@ title: Projects
     </section>
 
     <section id="clic">
-        <header>[2018] <strong>CLIC: What if?</strong> -- <i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i> (GPL v3).</header>
-            <!--
-                Waiting for 'go' on source code public release.
-                <a href="https://github.com/MartinBrugnara/CLIC" target="_blank"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (GPL v3).</header>
-            -->
+        <header>[2018] <strong>CLIC: What if?</strong> --
+            <a href="https://github.com/MartinBrugnara/CLIC" target="_blank"><i class="icon-github" aria-hidden="true"><span class="sr">GitHub</span></i></a> (GPL v3).</header>
         <p>"CLIC: What if?" is a framework for the simulation for calls for tenders under the Italian regulations.
             It has been developed in collaboration with the faculty of law at the Univesity of Trento,
             within the project "<a href="https://webmagazine.unitn.it/news/ateneo/6889/con-clic-pi-trasparenza-e-valorizzazione-della-qualit-negli-appalti-pubblici" target="_blank">CLIC</a>: Trasparenza e modernizzazione delle procedure di aggiudicazione degli appalti pubblici".</p>
@@ -86,11 +83,11 @@ title: Projects
         </p>
 
         <p>
-            <em>Network.</em> The site connects to the internet via two different ISP, to increase bandwidth (load balancing) and availability (failover).
+            <em>Network.</em> The site connects to the internet via three (two active, one backup) different ISP, to increase bandwidth (load balancing) and availability (failover).
             Staff and guests can connect to the wifi network that <a href="https://community.ubnt.com/t5/UniFi-Wireless/Request-for-advice-New-outdoor-installation-in-a-Campsite/m-p/1890169/highlight/true#M221835">covers the whole campsite</a> or via cable (from selected locations).
             The wifi coverage is provided via fiber backbones and <a href="https://unifi-mesh.ui.com/" target="_blank">Unifi Mesh APs</a>.
             The traffic generated from different physical locations, like the office, is tagged with dedicated VLAN tags, the same applies to all SSID.
-            A <a href="https://www.pfsense.org/">PfSense</a> VM is then responsible for the routing and for enforcing QoS rules.
+            A <a href="https://www.pfsense.org/">PfSense</a> box is then responsible for the routing and for enforcing QoS rules.
             The router act also as a firewall and provides all essential network services like DHCP, DNS caching, and NTP.
         </p>
 
@@ -99,11 +96,17 @@ title: Projects
         </p>
 
         <p>
-            <em>Multi-site Backups.</em> Local backups are managed by a VM, while remote backups rely on a NAS (24TiB, Debian + ZFS).
+            <em>Multi-site Backups.</em>
+            The site is connected through several <em>friendly</em>-remote
+            sites via a mesh of wireguard PTP connection.
+            To maximize the bandwidth to backup servers and minimize the management
+            overhead the network is configured for ECMP and OSPF.
+            <br>
+            Backups are performed both locally and remotely with different technologies and hardware setups.
         </p>
 
         <p>
-            <em>Video Surveillance.</em> Mix of IP and analog equipement. NVR (Unifi Video) and a DVR.
+            <em>Video Surveillance.</em> Mix of IP and analog equipment, NVR, and DVR.
         </p>
     </section>
 
@@ -112,7 +115,7 @@ title: Projects
         <p>
             The Django Martin Brugnara Camping Administration Utility (DMBCAU)
             is a fully featured framework capable of providing support on every aspect
-            of the campings administration.<br>
+            of the campings' administration.<br>
             It covers basic services like online reservation, confirmation, and billing procedures.
             Obviously, it also generates all documents reports required by law (C59, guests report for police, invoices, ...).
             Furthermore, it provides advanced features like resource (pitches, mobile homes, etc..) allocation optimization and marketing insights.
